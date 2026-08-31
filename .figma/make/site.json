@@ -1,0 +1,10 @@
+{
+  "description": "Showcase AI Orchestrator Workflows through an interactive, animated webpage presentation designed for enterprise leaders, enhancing clarity and engagement.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
