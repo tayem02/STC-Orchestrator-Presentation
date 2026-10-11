@@ -1,5 +1,7 @@
 import {
+  createContext,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -17,7 +19,7 @@ const NAV_ITEMS = [
   { id: "testing-workflow", label: "Testing Workflow" },
   { id: "observations-generator", label: "Observations Generator" },
 ];
-const SLIDE_IDS = ["hero", ...NAV_ITEMS.map(({ id }) => id), "thank-you"];
+const SLIDE_IDS = ["hero", ...NAV_ITEMS.map(({ id }) => id), "validation-depth", "thank-you"];
 const WORKFLOW_STEPS = OVERVIEW_STEP_LABELS();
 
 function OVERVIEW_STEP_LABELS() {
@@ -279,6 +281,26 @@ function SectionHeader({
   );
 }
 
+/** Lets a lightbox name the slide it was opened from, on screen and in the PDF export. */
+const SlideTitleContext = createContext("Slide");
+
+function LightboxBack({
+  label,
+  onClick,
+  autoFocus = false,
+}: {
+  label: string;
+  onClick: () => void;
+  autoFocus?: boolean;
+}) {
+  return (
+    <button autoFocus={autoFocus} type="button" className="lightbox-back" onClick={onClick}>
+      <i aria-hidden="true">←</i>
+      <span>Back to {label}</span>
+    </button>
+  );
+}
+
 function Section({
   id,
   title,
@@ -300,19 +322,21 @@ function Section({
 }) {
   const { ref, visible } = useInView();
   return (
-    <section id={id} className={`deck-section ${alt ? "alt" : ""}`}>
-      <div className="slide-canvas">
-        <HexBackground />
-        <SlideChrome />
-        <div className={`slide-body ${showRail ? "" : "without-rail"}`}>
-          <div ref={ref} className="section-content">
-            <SectionHeader title={title} visible={visible} showLegend={showLegend} titleAction={titleAction} />
-            {children(visible)}
+    <SlideTitleContext.Provider value={title}>
+      <section id={id} className={`deck-section ${alt ? "alt" : ""}`}>
+        <div className="slide-canvas">
+          <HexBackground />
+          <SlideChrome />
+          <div className={`slide-body ${showRail ? "" : "without-rail"}`}>
+            <div ref={ref} className="section-content">
+              <SectionHeader title={title} visible={visible} showLegend={showLegend} titleAction={titleAction} />
+              {children(visible)}
+            </div>
+            {showRail && <WorkflowRail currentStep={step} />}
           </div>
-          {showRail && <WorkflowRail currentStep={step} />}
         </div>
-      </div>
-    </section>
+      </section>
+    </SlideTitleContext.Provider>
   );
 }
 
@@ -507,7 +531,7 @@ function FullEngagement() {
         onClick={closePreview}
       >
         <div className="workflow-lightbox-frame" onClick={(event) => event.stopPropagation()}>
-          <button type="button" className="workflow-lightbox-close" onClick={closePreview} aria-label="Close image preview">×</button>
+          <LightboxBack label="Orchestrator Architecture" onClick={closePreview} />
           <img src={ALL_AUTOMATIONS_IMAGE} alt="All automations in AI Core" />
         </div>
       </div>
@@ -591,6 +615,7 @@ function WorkflowDetail({
   processingResult: string;
   output: ReactNode;
 }) {
+  const backLabel = useContext(SlideTitleContext);
   const [preview, setPreview] = useState<WorkflowScreenshot | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const closeTimeoutRef = useRef<number | null>(null);
@@ -666,7 +691,7 @@ function WorkflowDetail({
       {preview && (
         <div className={`workflow-lightbox ${previewOpen ? "is-open" : ""}`} role="dialog" aria-modal="true" aria-label={preview.alt} onClick={closePreview}>
           <div className="workflow-lightbox-frame" onClick={(event) => event.stopPropagation()}>
-            <button autoFocus type="button" className="workflow-lightbox-close" onClick={closePreview} aria-label="Close image preview">×</button>
+            <LightboxBack label={backLabel} onClick={closePreview} autoFocus />
             <img src={preview.src} alt={preview.alt} />
           </div>
         </div>
@@ -993,6 +1018,168 @@ function ObservationsGenerator() {
   );
 }
 
+const APPENDIX_SCREENS: (WorkflowScreenshot & { caption: string })[] = [
+  { src: ALL_AUTOMATIONS_IMAGE, alt: "All automations in AI Core", label: "All automations", caption: "AI Core · All automations" },
+  { ...WORKFLOW_SCREENSHOTS.engagementInputs[0], caption: "01 · Engagement Setup — Basic information" },
+  { ...WORKFLOW_SCREENSHOTS.engagementInputs[1], caption: "01 · Engagement Setup — Upload documents" },
+  { ...WORKFLOW_SCREENSHOTS.engagementOutput[0], caption: "01 · Engagement Setup — Output" },
+  { ...WORKFLOW_SCREENSHOTS.inherentInput[0], caption: "02 · Inherent Risk — Input" },
+  { ...WORKFLOW_SCREENSHOTS.inherentOutput[0], caption: "02 · Inherent Risk — Output" },
+  { ...WORKFLOW_SCREENSHOTS.apmInput[0], caption: "03 · APM Generator — Input" },
+  { ...WORKFLOW_SCREENSHOTS.apmOutput[0], caption: "03 · APM Generator — Output" },
+  { ...WORKFLOW_SCREENSHOTS.rcmInput[0], caption: "04 · RCM Generator — Input" },
+  { ...WORKFLOW_SCREENSHOTS.rcmOutput[0], caption: "04 · RCM Generator — Output" },
+  { ...WORKFLOW_SCREENSHOTS.testPlanInput[0], caption: "05 · Test Plan — Input" },
+  { ...WORKFLOW_SCREENSHOTS.testPlanOutput[0], caption: "05 · Test Plan — Output" },
+  { ...WORKFLOW_SCREENSHOTS.dataRequestInput[0], caption: "06 · Data Request — Input" },
+  { ...WORKFLOW_SCREENSHOTS.dataRequestOutput[0], caption: "06 · Data Request — Output" },
+  { ...WORKFLOW_SCREENSHOTS.testingInput[0], caption: "07 · Testing Execution — Input" },
+  { ...WORKFLOW_SCREENSHOTS.testingOutput[0], caption: "07 · Testing Execution — Output" },
+];
+
+function Appendix() {
+  const [preview, setPreview] = useState<number | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const closeTimeoutRef = useRef<number | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+  const openPreview = (index: number, trigger: HTMLButtonElement) => {
+    if (closeTimeoutRef.current !== null) window.clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = null;
+    triggerRef.current = trigger;
+    setPreview(index);
+    setPreviewOpen(false);
+    requestAnimationFrame(() => requestAnimationFrame(() => setPreviewOpen(true)));
+  };
+
+  const closePreview = useCallback(() => {
+    setPreviewOpen(false);
+    if (closeTimeoutRef.current !== null) window.clearTimeout(closeTimeoutRef.current);
+    closeTimeoutRef.current = window.setTimeout(() => {
+      setPreview(null);
+      closeTimeoutRef.current = null;
+      triggerRef.current?.focus();
+    }, 320);
+  }, []);
+
+  useEffect(() => {
+    if (preview === null) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closePreview();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [closePreview, preview]);
+
+  useEffect(() => () => {
+    if (closeTimeoutRef.current !== null) window.clearTimeout(closeTimeoutRef.current);
+  }, []);
+
+  const current = preview === null ? null : APPENDIX_SCREENS[preview];
+
+  return (
+    <section id="appendix" className="appendix">
+      <div className="slide-canvas">
+        <HexBackground />
+        <SlideChrome />
+        <div className="appendix-copy">
+          <p>STC Internal Audit · AI Orchestrator</p>
+          <h2>Appendix</h2>
+          <span>All AI Core screens · select any screen to open it full size</span>
+        </div>
+        <div className="appendix-grid">
+          {APPENDIX_SCREENS.map((screen, index) => (
+            <button
+              type="button"
+              key={screen.src}
+              className="appendix-card"
+              data-screen={index}
+              onClick={(event) => openPreview(index, event.currentTarget)}
+              aria-label={`Enlarge ${screen.alt}`}
+            >
+              <img src={screen.src} alt={`${screen.alt} preview`} />
+              <span>{screen.caption}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      {current && (
+        <div
+          className={`workflow-lightbox appendix-lightbox ${previewOpen ? "is-open" : ""}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label={current.alt}
+          onClick={closePreview}
+        >
+          <div className="workflow-lightbox-frame" onClick={(event) => event.stopPropagation()}>
+            <LightboxBack label="Appendix" onClick={closePreview} autoFocus />
+            <img src={current.src} alt={current.alt} />
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ValidationDepth() {
+  return (
+    <Section id="validation-depth" title="Quality Cowworkers" alt showRail={false} showLegend={false}>
+      {(visible) => (
+        <div className={`validator-flow ${visible ? "fade-enter" : "before-enter"}`}>
+          <div className="validator-stage validator-input-stage">
+            <span className="validator-stage-label">Input</span>
+          </div>
+          <div className="validator-stage validator-agents-stage" />
+          <div className="validator-stage validator-output-stage" />
+
+          <svg className="validator-flow-lines" viewBox="0 0 1300 650" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <marker id="validator-arrow" viewBox="0 0 8 8" refX="4" refY="7" markerWidth="7" markerHeight="7" orient="0">
+                <path d="M0 0 L8 0 L4 8 Z" />
+              </marker>
+            </defs>
+            <path className="validator-branch" d="M650 64 V120 H210 V157" markerEnd="url(#validator-arrow)" />
+            <path className="validator-branch" d="M650 64 V157" markerEnd="url(#validator-arrow)" />
+            <path className="validator-branch" d="M650 64 V120 H1090 V157" markerEnd="url(#validator-arrow)" />
+            <path className="validator-merge" d="M210 251 V345 H650 V405" markerEnd="url(#validator-arrow)" />
+            <path className="validator-merge" d="M650 251 V405" markerEnd="url(#validator-arrow)" />
+            <path className="validator-merge" d="M1090 251 V345 H650 V405" markerEnd="url(#validator-arrow)" />
+            <path className="validator-final" d="M650 499 V570" markerEnd="url(#validator-arrow)" />
+          </svg>
+
+          <span className="validator-branch-label">Selected depth</span>
+          <span className="validator-merge-label">Selected validation result</span>
+
+          <div className="validator-layer-copy validator-choice">
+            <span>User Choose the depth of the Analysis</span>
+          </div>
+
+          <div className="validator-agent-row">
+            <div className="validator-node">
+              <Node label="Concise Validator" sublabel="Agent will focus on critical comments only" variant="ai" visible={visible} delay={0.2} width={320} />
+            </div>
+            <div className="validator-node">
+              <Node label="Balance Validator" sublabel="Agent will focus on critical comments and key improvements" variant="ai" visible={visible} delay={0.32} width={320} />
+            </div>
+            <div className="validator-node">
+              <Node label="Comprehensive Validator" sublabel="Agent will focus on critical comments, key improvements and suggestions" variant="ai" visible={visible} delay={0.44} width={320} />
+            </div>
+          </div>
+
+          <div className="validator-node validator-template">
+            <Node label="Template Validator" sublabel="Agent will check if the file is following the template" variant="ai" visible={visible} delay={0.6} width={370} />
+          </div>
+
+          <div className="validator-layer-copy validator-output">
+            <strong>Combined Output</strong>
+            <span>Agent will consolidate the output and present it to the user</span>
+          </div>
+        </div>
+      )}
+    </Section>
+  );
+}
+
 function ThankYou() {
   return (
     <section id="thank-you" className="thank-you">
@@ -1068,6 +1255,7 @@ export default function App() {
       <DataRequest />
       <Testing />
       <ObservationsGenerator />
+      <ValidationDepth />
       <ThankYou />
     </main>
   );

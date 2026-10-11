@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="ar" dir="rtl" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>منظومة Orchestrator للذكاء الاصطناعي في المراجعة الداخلية · stc</title>
+    <link rel="stylesheet" href="version2/fonts.css" />
+    <style>
+      :root {
+        --ink: #05010e;
+        --panel: #0d0421;
+        --panel-2: #130630;
+        --panel-3: #1a0842;
+        --stc-purple: #4f008c;
+        --violet: #7c3aed;
+        --violet-soft: #a78bfa;
+        --magenta: #e91e8c;
+        --magenta-deep: #b81468;
+        --lilac: #bda7ff;
+        --sub: rgba(255, 255, 255, 0.74);
+        --muted: rgba(255, 255, 255, 0.56);
+        --hint: rgba(255, 255, 255, 0.4);
+        --line: rgba(255, 255, 255, 0.11);
+        --line-2: rgba(255, 255, 255, 0.2);
+        --hex: url("data:image/svg+xml,%3Csvg width='56' height='100' viewBox='0 0 56 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");
+        --heading: "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+        --body: "IBM Plex Sans Arabic", "Readex Pro", "Segoe UI", Tahoma, sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #030109;
+        color: #fff;
+        font-family: var(--body);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      .stage {
+        display: flex;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .poster {
+        position: relative;
+        width: 1040px;
+        overflow: hidden;
+        background:
+          radial-gradient(1100px 620px at 82% -8%, rgba(233, 30, 140, 0.2), transparent 62%),
+          radial-gradient(940px 560px at 8% 4%, rgba(124, 58, 237, 0.24), transparent 60%),
+          linear-gradient(178deg, #150735 0%, #0d0421 28%, #0a0319 62%, #100528 100%);
+      }
+
+      /* ── shared bits ─────────────────────────────────────────── */
+
+      .hexwash {
+        position: absolute;
+        z-index: 0;
+        background-image: var(--hex);
+        background-size: 56px 100px;
+        opacity: 0.05;
+      }
+
+      .glow {
+        position: absolute;
+        z-index: 0;
+        border-radius: 50%;
+        pointer-events: none;
+        filter: blur(2px);
+      }
+
+      .bighex {
+        position: absolute;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .bighex polygon {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1.2;
+      }
+
+      /* Accents flow from the right, matching the RTL reading direction. */
+      .rule {
+        height: 1px;
+        border: 0;
+        margin: 0;
+        background: linear-gradient(-90deg, var(--magenta), rgba(124, 58, 237, 0.55) 34%, rgba(255, 255, 255, 0));
+      }
+
+      .topedge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 5;
+        height: 4px;
+        background: linear-gradient(-90deg, #ff5fb4, var(--magenta) 22%, var(--violet) 58%, rgba(79, 0, 140, 0.5));
+      }
+
+      /* ── hero ────────────────────────────────────────────────── */
+
+      .hero {
+        position: relative;
+        padding: 40px 64px 0;
+      }
+
+      .hero .hexwash {
+        inset: 0;
+        opacity: 0.07;
+        -webkit-mask-image: linear-gradient(200deg, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 88%);
+        mask-image: linear-gradient(200deg, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 88%);
+      }
+
+      .topbar {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .topbar img {
+        display: block;
+        width: 68px;
+        height: 34px;
+        object-fit: contain;
+      }
+
+      .datechip {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 7px 15px 7px 13px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--sub);
+        font-family: var(--heading);
+        font-size: 12.5px;
+        font-weight: 500;
+        letter-spacing: 0.01em;
+      }
+
+      .datechip i {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--magenta);
+        box-shadow: 0 0 9px var(--magenta);
+      }
+
+      .kicker {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 42px 0 0;
+        color: var(--magenta);
+        font-family: var(--heading);
+        font-size: 13.5px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      .kicker::before {
+        display: block;
+        width: 34px;
+        height: 2px;
+        border-radius: 2px;
+        background: linear-gradient(-90deg, var(--magenta), rgba(233, 30, 140, 0.1));
+        content: "";
+      }
+
+      h1 {
+        position: relative;
+        z-index: 2;
+        margin: 16px 0 0;
+        font-family: var(--heading);
+        font-size: 50px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.34;
+      }
+
+      h1 .brand {
+        background: linear-gradient(94deg, #ff5fb4 6%, #e91e8c 38%, #a78bfa 92%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+      }
+
+      h1 small {
+        display: block;
+        margin-top: 10px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 1.4;
+      }
+
+      .lead {
+        position: relative;
+        z-index: 2;
+        max-width: 760px;
+        margin: 24px 0 0;
+        color: var(--sub);
+        font-size: 17px;
+        font-weight: 300;
+        line-height: 1.95;
+      }
+
+      .lead b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* ── metrics ─────────────────────────────────────────────── */
+
+      .metrics {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        margin: 40px 0 0;
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        background:
+          linear-gradient(-90deg, rgba(233, 30, 140, 0.14), rgba(124, 58, 237, 0.12) 55%, rgba(255, 255, 255, 0.03));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+        grid-template-columns: repeat(3, 1fr);
+        overflow: hidden;
+      }
+
+      .metric {
+        position: relative;
+        padding: 26px 28px 24px;
+      }
+
+      .metric + .metric::before {
+        position: absolute;
+        top: 22px;
+        right: 0;
+        bottom: 22px;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+        content: "";
+      }
+
+      .metric em {
+        display: block;
+        background: linear-gradient(180deg, #fff 20%, #ffc4e6 78%, #ff8ecd 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: var(--heading);
+        font-size: 46px;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 11px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 1.5;
+      }
+
+      .metric small {
+        display: block;
+        margin-top: 4px;
+        color: var(--hint);
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 1.5;
+      }
+
+      .hero-fade {
+        position: relative;
+        z-index: 2;
+        height: 40px;
+      }
+
+      /* ── sections ────────────────────────────────────────────── */
+
+      section.block {
+        position: relative;
+        padding: 42px 64px;
+      }
+
+      section.block.tinted {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0));
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+
+      .shead {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 26px;
+      }
+
+      .shead-row {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .snum {
+        display: flex;
+        width: 44px;
+        height: 44px;
+        flex: 0 0 44px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(233, 30, 140, 0.5);
+        border-radius: 13px;
+        background: linear-gradient(150deg, rgba(233, 30, 140, 0.24), rgba(124, 58, 237, 0.14));
+        box-shadow: 0 0 22px rgba(233, 30, 140, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        color: #ffd3ec;
+        font-family: var(--heading);
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+
+      .snum svg {
+        width: 21px;
+        height: 21px;
+      }
+
+      .shead h2 {
+        margin: 0;
+        font-family: var(--heading);
+        font-size: 27px;
+        font-weight: 600;
+        letter-spacing: -0.005em;
+        line-height: 1.4;
+      }
+
+      .shead .rule {
+        margin-top: 18px;
+      }
+
+      .prose {
+        position: relative;
+        z-index: 2;
+        margin: 0;
+        color: var(--sub);
+        font-size: 15.5px;
+        font-weight: 300;
+        line-height: 2;
+      }
+
+      .prose + .prose {
+        margin-top: 15px;
+      }
+
+      .prose b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .prose .mg {
+        color: #ff8ecd;
+        font-weight: 500;
+      }
+
+      /* ── differentiator pills ────────────────────────────────── */
+
+      .pills {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        margin-top: 26px;
+        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .pill {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px 16px;
+        border: 1px solid var(--line-2);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .pill svg {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 20px;
+        color: var(--magenta);
+      }
+
+      .pill span {
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 13.5px;
+        font-weight: 400;
+        line-height: 1.5;
+      }
+
+      /* ── journey ─────────────────────────────────────────────── */
+
+      .journey-wrap {
+        position: relative;
+        z-index: 2;
+      }
+
+      .journey {
+        display: grid;
+        gap: 16px 30px;
+        grid-template-columns: repeat(5, 1fr);
+      }
+
+      .stagecard {
+        position: relative;
+        padding: 16px 15px 17px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 16px;
+        background: linear-gradient(165deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+
+      .stagecard:not(:nth-child(5n))::after {
+        position: absolute;
+        top: 50%;
+        left: -21px;
+        width: 12px;
+        height: 12px;
+        border-bottom: 1.6px solid rgba(233, 30, 140, 0.85);
+        border-left: 1.6px solid rgba(233, 30, 140, 0.85);
+        content: "";
+        transform: translateY(-50%) rotate(45deg);
+      }
+
+      .stagecard b {
+        display: block;
+        color: var(--magenta);
+        font-family: var(--heading);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+      }
+
+      .stagecard strong {
+        display: block;
+        margin-top: 9px;
+        color: #fff;
+        font-size: 13.5px;
+        font-weight: 500;
+        line-height: 1.6;
+      }
+
+      .journey-note {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 22px;
+        padding: 14px 18px;
+        border: 1px dashed rgba(189, 167, 255, 0.42);
+        border-radius: 14px;
+        background: rgba(124, 58, 237, 0.1);
+        color: var(--lilac);
+        font-size: 13.5px;
+        font-weight: 400;
+        line-height: 1.7;
+      }
+
+      .journey-note svg {
+        width: 18px;
+        height: 18px;
+        flex: 0 0 18px;
+      }
+
+      /* ── phases ──────────────────────────────────────────────── */
+
+      .phases {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .phase {
+        position: relative;
+        padding: 24px 22px 26px;
+        border: 1px solid var(--line-2);
+        border-radius: 18px;
+        background: linear-gradient(168deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.015));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      }
+
+      .phase::before {
+        position: absolute;
+        top: 0;
+        right: 24px;
+        left: 24px;
+        height: 2px;
+        border-radius: 0 0 3px 3px;
+        background: linear-gradient(-90deg, var(--magenta), rgba(124, 58, 237, 0.2));
+        content: "";
+      }
+
+      .phicon {
+        display: flex;
+        width: 42px;
+        height: 42px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 12px;
+        background: rgba(233, 30, 140, 0.12);
+        color: #ff9bd3;
+      }
+
+      .phicon svg {
+        width: 21px;
+        height: 21px;
+      }
+
+      .phase h3 {
+        margin: 16px 0 0;
+        font-family: var(--heading);
+        font-size: 17px;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .phase p {
+        margin: 10px 0 0;
+        color: var(--sub);
+        font-size: 13.5px;
+        font-weight: 300;
+        line-height: 1.85;
+      }
+
+      .routes {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        padding: 18px 22px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: linear-gradient(-90deg, rgba(233, 30, 140, 0.12), rgba(124, 58, 237, 0.08) 60%, rgba(255, 255, 255, 0.02));
+        gap: 20px;
+      }
+
+      .routes > b {
+        color: #fff;
+        font-family: var(--heading);
+        font-size: 13.5px;
+        font-weight: 600;
+        line-height: 1.5;
+        white-space: nowrap;
+      }
+
+      .routes ul {
+        display: flex;
+        flex: 1;
+        margin: 0;
+        padding: 0;
+        gap: 10px;
+        list-style: none;
+      }
+
+      .routes li {
+        flex: 1;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-radius: 11px;
+        background: rgba(5, 1, 14, 0.42);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 12.5px;
+        font-weight: 400;
+        text-align: center;
+      }
+
+      /* ── governance ──────────────────────────────────────────── */
+
+      .grid2 {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        margin-top: 24px;
+        gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pillar {
+        display: flex;
+        gap: 16px;
+        padding: 22px 22px 24px;
+        border: 1px solid var(--line-2);
+        border-radius: 18px;
+        background: linear-gradient(168deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      }
+
+      .pillar > .hexicon {
+        position: relative;
+        display: flex;
+        width: 46px;
+        height: 52px;
+        flex: 0 0 46px;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+
+      .pillar > .hexicon svg.hexbg {
+        position: absolute;
+        inset: 0;
+        width: 46px;
+        height: 52px;
+      }
+
+      .pillar > .hexicon svg.hexbg polygon {
+        fill: rgba(233, 30, 140, 0.14);
+        stroke: rgba(233, 30, 140, 0.6);
+        stroke-width: 1.4;
+      }
+
+      .pillar > .hexicon svg.glyph {
+        position: relative;
+        width: 20px;
+        height: 20px;
+        color: #ff9bd3;
+      }
+
+      .pillar h4 {
+        margin: 4px 0 0;
+        font-family: var(--heading);
+        font-size: 15.5px;
+        font-weight: 600;
+        line-height: 1.5;
+      }
+
+      .pillar p {
+        margin: 9px 0 0;
+        color: var(--sub);
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1.85;
+      }
+
+      .assurance {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-top: 20px;
+        padding: 20px 24px;
+        border: 1px solid rgba(233, 30, 140, 0.34);
+        border-radius: 18px;
+        background: linear-gradient(-90deg, rgba(233, 30, 140, 0.16), rgba(124, 58, 237, 0.08) 70%, rgba(255, 255, 255, 0.02));
+      }
+
+      .assurance svg {
+        width: 26px;
+        height: 26px;
+        flex: 0 0 26px;
+        color: #ff8ecd;
+      }
+
+      .assurance p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.94);
+        font-size: 14.5px;
+        font-weight: 400;
+        line-height: 1.8;
+      }
+
+      /* ── impact ──────────────────────────────────────────────── */
+
+      .impact {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .icard {
+        position: relative;
+        overflow: hidden;
+        padding: 26px 24px 28px;
+        border: 1px solid var(--line-2);
+        border-radius: 20px;
+        background: linear-gradient(170deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.014));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      }
+
+      .icard .hexwash {
+        inset: 0;
+        opacity: 0.045;
+      }
+
+      .icard-head {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+      }
+
+      .icard-head svg {
+        width: 22px;
+        height: 22px;
+        flex: 0 0 22px;
+        color: var(--magenta);
+      }
+
+      .icard-head h3 {
+        margin: 0;
+        font-family: var(--heading);
+        font-size: 17.5px;
+        font-weight: 600;
+        line-height: 1.45;
+      }
+
+      .icard ul {
+        position: relative;
+        z-index: 2;
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .icard li {
+        position: relative;
+        padding-right: 26px;
+        color: var(--sub);
+        font-size: 13.5px;
+        font-weight: 300;
+        line-height: 1.85;
+      }
+
+      .icard li + li {
+        margin-top: 13px;
+      }
+
+      .icard li::before {
+        position: absolute;
+        top: 9px;
+        right: 3px;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: linear-gradient(140deg, var(--magenta), var(--violet));
+        box-shadow: 0 0 8px rgba(233, 30, 140, 0.55);
+        content: "";
+        transform: rotate(45deg);
+      }
+
+      .icard li b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* ── closing ─────────────────────────────────────────────── */
+
+      .closing {
+        position: relative;
+        overflow: hidden;
+        padding: 48px 64px 46px;
+        background:
+          radial-gradient(760px 420px at 78% 120%, rgba(233, 30, 140, 0.22), transparent 62%),
+          radial-gradient(680px 380px at 14% -20%, rgba(124, 58, 237, 0.22), transparent 60%),
+          linear-gradient(180deg, #0a0319, #150735);
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .closing .hexwash {
+        inset: 0;
+        opacity: 0.06;
+      }
+
+      .quote {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .quote .qmark {
+        display: block;
+        margin: 0 auto 6px;
+        width: 40px;
+        height: 40px;
+        color: rgba(233, 30, 140, 0.85);
+      }
+
+      .quote p.big {
+        margin: 0;
+        font-family: var(--heading);
+        font-size: 27px;
+        font-weight: 500;
+        line-height: 1.72;
+      }
+
+      .quote p.big span {
+        background: linear-gradient(94deg, #ff77c1, #ffb3de 45%, #c9b3ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+      }
+
+      .quote p.big em {
+        color: rgba(255, 255, 255, 0.58);
+        font-style: normal;
+        font-weight: 400;
+        text-decoration: line-through;
+        text-decoration-color: rgba(233, 30, 140, 0.65);
+        text-decoration-thickness: 2px;
+      }
+
+      .quote hr {
+        width: 84px;
+        height: 2px;
+        border: 0;
+        margin: 26px auto;
+        border-radius: 2px;
+        background: linear-gradient(90deg, rgba(233, 30, 140, 0.1), var(--magenta), rgba(124, 58, 237, 0.1));
+      }
+
+      .quote p.small {
+        margin: 0;
+        color: var(--sub);
+        font-size: 14.5px;
+        font-weight: 300;
+        line-height: 2;
+      }
+
+      .quote p.small b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* ── footer ──────────────────────────────────────────────── */
+
+      footer {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 22px 64px 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        background: #05010e;
+      }
+
+      footer .fleft {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      footer img {
+        display: block;
+        width: 52px;
+        height: 26px;
+        object-fit: contain;
+      }
+
+      footer .fdiv {
+        width: 1px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      footer span {
+        color: var(--muted);
+        font-size: 12.5px;
+        font-weight: 300;
+      }
+
+      footer .fright {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: var(--hint);
+        font-family: var(--heading);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+      }
+
+      footer .fright i {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: var(--magenta);
+      }
+
+      @media print {
+        body {
+          background: #05010e;
+        }
+
+        .poster {
+          box-shadow: none;
+        }
+      }
+    </style>
+  
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">UQKRV34WMPZ3-1979299420-1461467</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">82be54f2-72ad-4a13-a9ad-59f28cde939c</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://pwceur.sharepoint.com/sites/ae-GSD-0AMnmKU7FMzEEUk9PVA/_layouts/15/DocIdRedir.aspx?ID=UQKRV34WMPZ3-1979299420-1461467, UQKRV34WMPZ3-1979299420-1461467</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+  <body>
+    <div class="stage">
+      <div class="poster">
+        <div class="topedge"></div>
+
+        <!-- ══ HERO ══════════════════════════════════════════ -->
+        <header class="hero">
+          <div class="hexwash"></div>
+          <div
+            class="glow"
+            style="top: -180px; left: -140px; width: 460px; height: 460px; background: radial-gradient(circle, rgba(124,58,237,.34), transparent 66%)"
+          ></div>
+          <div
+            class="glow"
+            style="top: -120px; right: -110px; width: 420px; height: 420px; background: radial-gradient(circle, rgba(233,30,140,.3), transparent 66%)"
+          ></div>
+          <svg class="bighex" style="top: 118px; left: -66px; opacity: 0.1" width="240" height="277" viewBox="0 0 240 277">
+            <polygon points="120,0 240,69 240,208 120,277 0,208 0,69" />
+          </svg>
+          <svg class="bighex" style="top: 22px; right: 118px; opacity: 0.09" width="150" height="173" viewBox="0 0 150 173">
+            <polygon points="75,0 150,43 150,130 75,173 0,130 0,43" />
+          </svg>
+
+          <div class="topbar">
+            <img src="version2/stc-logo-white.png" alt="stc" />
+            <div class="datechip"><i></i><span>2026 · الإدارة العامة للمراجعة الداخلية</span></div>
+          </div>
+
+          <p class="kicker">التحول الرقمي والابتكار في المراجعة الداخلية</p>
+
+          <h1>
+            منظومة <span class="brand">Orchestrator</span>
+            <small>للذكاء الاصطناعي في المراجعة الداخلية</small>
+          </h1>
+
+          <p class="lead">
+            منظومة متكاملة للذكاء الاصطناعي طُوّرت لإعادة تصميم طريقة تنفيذ أعمال المراجعة الداخلية في
+            <b>stc</b>، تعمل كـ<b>مساعد رقمي متكامل للمراجع عبر رحلة المراجعة بالكامل</b> — وليست أداة
+            مستقلة لتنفيذ مهمة واحدة.
+          </p>
+
+          <div class="metrics">
+            <div class="metric">
+              <em>10</em>
+              <span>مسارات عمل مترابطة</span>
+              <small>من فهم المهمة حتى الإغلاق والمتابعة</small>
+            </div>
+            <div class="metric">
+              <em>47</em>
+              <span>وكيلاً ذكياً متخصصاً</span>
+              <small>لكل وكيل مهمة ومدخلات ومخرجات محددة</small>
+            </div>
+            <div class="metric">
+              <em>04</em>
+              <span>مسارات لتنفيذ الاختبارات</span>
+              <small>ذكاء اصطناعي · تحليلات · يدوي · هجين</small>
+            </div>
+          </div>
+
+          <div class="hero-fade"></div>
+        </header>
+
+        <!-- ══ 01 · WHAT & WHY ══════════════════════════════ -->
+        <section class="block">
+          <div class="hexwash" style="inset: 0; opacity: 0.03"></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">01</div>
+              <h2>ما هو المشروع وما يميزه؟</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <p class="prose">
+            بُنيت المنظومة من خلال <b>10 مسارات عمل مترابطة</b> تضم <b>47 وكيلاً ذكياً متخصصاً</b>
+            (AI Agents)، تبدأ من فهم المهمة وتحليل الوثائق وتحديد المخاطر، وتمتد إلى بناء الأهداف
+            والنطاق، ومذكرة التخطيط، ومصفوفة المخاطر والضوابط، وخطة الاختبار، وطلبات البيانات، وتنفيذ
+            الاختبارات، وصياغة الملاحظات، والتقرير والإغلاق والمتابعة.
+          </p>
+          <p class="prose">
+            ويكمن تميّز <span class="mg">Orchestrator</span> في تحويل منهجية المراجعة إلى
+            <b>منظومة رقمية مترابطة</b>؛ لكل وكيل فيها مهمة محددة، ومدخلات ومخرجات واضحة، وضوابط جودة
+            واعتماد، بينما يبقى <b>المراجع صاحب القرار في المراحل الرئيسية</b>.
+          </p>
+
+          <div class="pills">
+            <div class="pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3.2" />
+                <path d="M12 2v3.2M12 18.8V22M2 12h3.2M18.8 12H22M4.9 4.9l2.3 2.3M16.8 16.8l2.3 2.3M19.1 4.9l-2.3 2.3M7.2 16.8l-2.3 2.3" />
+              </svg>
+              <span>مهمة محددة لكل وكيل ذكي</span>
+            </div>
+            <div class="pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7h7l2 2.5h9" />
+                <path d="M21 17h-7l-2-2.5H3" />
+                <path d="M6 4.5 3.2 7 6 9.5" />
+                <path d="M18 12.2l2.8 2.5-2.8 2.5" />
+              </svg>
+              <span>مدخلات ومخرجات واضحة</span>
+            </div>
+            <div class="pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.6 20 6v6.2c0 4.4-3.3 7.7-8 9.2-4.7-1.5-8-4.8-8-9.2V6z" />
+                <path d="M8.6 11.9l2.5 2.5 4.3-4.5" />
+              </svg>
+              <span>ضوابط جودة ونقاط اعتماد</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ JOURNEY ══════════════════════════════════════ -->
+        <section class="block tinted">
+          <div class="hexwash" style="inset: 0; opacity: 0.04"></div>
+          <div
+            class="glow"
+            style="top: -90px; left: 40%; width: 520px; height: 320px; background: radial-gradient(circle, rgba(124,58,237,.2), transparent 68%)"
+          ></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 6.4H9.4a3.6 3.6 0 0 0 0 7.2h5.2a3.6 3.6 0 0 1 0 7.2H4" />
+                  <path d="M7.2 3.4 4 6.4l3.2 3" />
+                </svg>
+              </div>
+              <h2>رحلة المراجعة داخل المنظومة</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <div class="journey-wrap">
+            <div class="journey">
+              <div class="stagecard"><b>01</b><strong>فهم المهمة وتحليل الوثائق</strong></div>
+              <div class="stagecard"><b>02</b><strong>تحديد وتقييم المخاطر</strong></div>
+              <div class="stagecard"><b>03</b><strong>الأهداف والنطاق</strong></div>
+              <div class="stagecard"><b>04</b><strong>مذكرة التخطيط</strong></div>
+              <div class="stagecard"><b>05</b><strong>مصفوفة المخاطر والضوابط</strong></div>
+              <div class="stagecard"><b>06</b><strong>خطة الاختبار</strong></div>
+              <div class="stagecard"><b>07</b><strong>طلبات البيانات</strong></div>
+              <div class="stagecard"><b>08</b><strong>تنفيذ الاختبارات</strong></div>
+              <div class="stagecard"><b>09</b><strong>صياغة الملاحظات</strong></div>
+              <div class="stagecard"><b>10</b><strong>التقرير والإغلاق والمتابعة</strong></div>
+            </div>
+
+            <div class="journey-note">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 6.5h9.5a4 4 0 0 1 0 8H8" />
+                <path d="M10.5 11.8 7.4 14.5l3.1 2.7" />
+                <circle cx="19" cy="18.5" r="2.2" />
+              </svg>
+              <span>
+                تعمل المنظومة كسلسلة واحدة: <b>مخرجات كل مرحلة تصبح مدخلات موثقة للمرحلة التالية</b>،
+                مع نقاط اعتماد بشرية واضحة على امتداد الرحلة.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ 02 · HOW IT WORKS ════════════════════════════ -->
+        <section class="block">
+          <div class="hexwash" style="inset: 0; opacity: 0.03"></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">02</div>
+              <h2>كيف يعمل؟</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <div class="phases">
+            <div class="phase">
+              <div class="phicon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2.8H7.2A2.2 2.2 0 0 0 5 5v14a2.2 2.2 0 0 0 2.2 2.2h9.6A2.2 2.2 0 0 0 19 19V7.8z" />
+                  <path d="M14 2.8V7.8H19" />
+                  <path d="M8.6 12.5h6.8M8.6 16.2h4.4" />
+                </svg>
+              </div>
+              <h3>الاستيعاب وبناء السياق</h3>
+              <p>
+                يبدأ Orchestrator باستيعاب معلومات المهمة والوثائق ذات العلاقة، وبناء
+                <b>سياق متكامل للجهة محل المراجعة</b> يُستخدم مرجعاً لكل ما يليه.
+              </p>
+            </div>
+
+            <div class="phase">
+              <div class="phicon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3 21 7.6 12 12.2 3 7.6z" />
+                  <path d="M3 12.4 12 17l9-4.6" />
+                  <path d="M3 16.8 12 21.4l9-4.6" />
+                </svg>
+              </div>
+              <h3>التقييم والبناء</h3>
+              <p>
+                تعمل مجموعة من الوكلاء بشكل متتابع لتحديد المخاطر وتقييمها، وتحويلها إلى أهداف ونطاق،
+                ثم بناء <b>مذكرة التخطيط ومصفوفة المخاطر والضوابط وخطة الاختبارات</b>.
+              </p>
+            </div>
+
+            <div class="phase">
+              <div class="phicon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.4V13M9.3 19.4V8.6M14.7 19.4v-8M20 19.4V5.4" />
+                  <path d="M3 21.6h18" />
+                </svg>
+              </div>
+              <h3>التنفيذ والإخراج</h3>
+              <p>
+                تُحدَّد البيانات والأدلة المطلوبة آلياً، ثم تُراجع الأدلة وتُكتشف الاستثناءات ويُتحقق
+                منها، قبل استخدامها في <b>صياغة الملاحظات والتقرير ومتابعة خطط العمل</b>.
+              </p>
+            </div>
+          </div>
+
+          <div class="routes">
+            <b>توجيه كل اختبار إلى المسار الأنسب</b>
+            <ul>
+              <li>الذكاء الاصطناعي</li>
+              <li>التحليلات و Alteryx</li>
+              <li>التنفيذ اليدوي</li>
+              <li>نموذج هجين</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ══ 03 · GOVERNANCE ══════════════════════════════ -->
+        <section class="block tinted">
+          <div class="hexwash" style="inset: 0; opacity: 0.04"></div>
+          <div
+            class="glow"
+            style="top: 60px; right: -120px; width: 460px; height: 460px; background: radial-gradient(circle, rgba(233,30,140,.16), transparent 66%)"
+          ></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">03</div>
+              <h2>من الناحية التقنية، ماذا يضمن المشروع؟</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <p class="prose">
+            لم يُبنَ <span class="mg">Orchestrator</span> كطبقة ذكاء اصطناعي تنتج محتوى فقط، بل
+            كمنظومة ذات <b>حوكمة وضوابط مدمجة داخل طريقة عملها</b>.
+          </p>
+
+          <div class="grid2">
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 46 52"><polygon points="23,1 45,13.5 45,38.5 23,51 1,38.5 1,13.5" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="8.6" cy="12" r="5.4" />
+                  <circle cx="15.4" cy="12" r="5.4" />
+                </svg>
+              </div>
+              <div>
+                <h4>فصل التنفيذ عن المراجعة</h4>
+                <p>وكلاء متخصصون للتنفيذ، ووكلاء مستقلون لمراجعة الجودة والاكتمال والاتساق.</p>
+              </div>
+            </div>
+
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 46 52"><polygon points="23,1 45,13.5 45,38.5 23,51 1,38.5 1,13.5" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="4.2" y="10.4" width="15.6" height="10.4" rx="2.2" />
+                  <path d="M7.8 10.4V7.6a4.2 4.2 0 0 1 8.4 0v2.8" />
+                  <path d="M12 14.2v2.8" />
+                </svg>
+              </div>
+              <div>
+                <h4>بوابات اعتماد إلزامية</h4>
+                <p>مراحل اعتماد تمنع انتقال المخرجات إلى الخطوة التالية قبل مراجعتها.</p>
+              </div>
+            </div>
+
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 46 52"><polygon points="23,1 45,13.5 45,38.5 23,51 1,38.5 1,13.5" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 13.9a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 0 0-5.7-5.7l-1.1 1.1" />
+                  <path d="M14 10.1a4 4 0 0 0-5.7 0L5.7 12.7a4 4 0 0 0 5.7 5.7l1.1-1.1" />
+                </svg>
+              </div>
+              <div>
+                <h4>ربط النتائج بالأدلة</h4>
+                <p>ربط كل نتيجة بمصادرها وأدلتها، والتحقق من عدم وجود استنتاجات غير مدعومة.</p>
+              </div>
+            </div>
+
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 46 52"><polygon points="23,1 45,13.5 45,38.5 23,51 1,38.5 1,13.5" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="5.4" r="2.4" />
+                  <circle cx="5.4" cy="18.6" r="2.4" />
+                  <circle cx="18.6" cy="18.6" r="2.4" />
+                  <path d="M10.6 7.6 6.8 16.4M13.4 7.6l3.8 8.8M7.8 18.6h8.4" />
+                </svg>
+              </div>
+              <div>
+                <h4>ترابط كامل بين المخرجات</h4>
+                <p>اتساق محفوظ بين المخاطر والأهداف والنطاق والضوابط والاختبارات والملاحظات والتقرير.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="assurance">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2.6 20 6v6.2c0 4.4-3.3 7.7-8 9.2-4.7-1.5-8-4.8-8-9.2V6z" />
+              <path d="M8.6 11.9l2.5 2.5 4.3-4.5" />
+            </svg>
+            <p>
+              ذكاء اصطناعي يعمل ضمن <b>نطاق واضح ومخرجات منظمة ومسار قابل للتتبع والمراجعة</b> — مع
+              بقاء الحكم المهني والاعتماد النهائي بيد المراجع.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══ 04 · IMPACT ══════════════════════════════════ -->
+        <section class="block">
+          <div class="hexwash" style="inset: 0; opacity: 0.03"></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">04</div>
+              <h2>ما الأثر المتوقع على مستوى stc وإدارة المراجعة الداخلية؟</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <p class="prose" style="margin-bottom: 24px">
+            يمثل <span class="mg">Orchestrator</span> <b>تحولاً في نموذج تشغيل المراجعة الداخلية</b>،
+            وليس مجرد تحسين لأداة قائمة.
+          </p>
+
+          <div class="impact">
+            <div class="icard">
+              <div class="hexwash"></div>
+              <div class="icard-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="7.8" r="3.4" />
+                  <path d="M2.8 20.4a6.2 6.2 0 0 1 12.4 0" />
+                  <path d="M16.4 4.8a3.4 3.4 0 0 1 0 6M18.2 14.6a6.2 6.2 0 0 1 3 5.8" />
+                </svg>
+                <h3>على مستوى إدارة المراجعة الداخلية</h3>
+              </div>
+              <ul>
+                <li>
+                  <b>تقليل الوقت المستهلك</b> في تحليل المستندات، وإعداد المسودات، وبناء المصفوفات،
+                  وتحديد متطلبات البيانات، وتنفيذ الاختبارات وتحليلها.
+                </li>
+                <li>
+                  <b>تركيز أكبر للمراجع</b> على الحكم المهني وتحليل المخاطر ومناقشة النتائج وتقديم
+                  قيمة أعلى للأعمال.
+                </li>
+                <li><b>توحيد جودة ومنهجية التنفيذ</b> بين فرق المراجعة المختلفة.</li>
+                <li>
+                  <b>تتبع أوضح</b> للعمل والأدلة والقرارات طوال دورة المراجعة.
+                </li>
+              </ul>
+            </div>
+
+            <div class="icard">
+              <div class="hexwash"></div>
+              <div class="icard-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9.2" />
+                  <path d="M2.8 12h18.4" />
+                  <path d="M12 2.8c2.6 2.6 4 5.8 4 9.2s-1.4 6.6-4 9.2c-2.6-2.6-4-5.8-4-9.2s1.4-6.6 4-9.2z" />
+                </svg>
+                <h3>على مستوى stc</h3>
+              </div>
+              <ul>
+                <li>
+                  <b>نموذج عملي متقدم</b> لتوظيف الذكاء الاصطناعي داخل وظيفة مؤسسية متكاملة.
+                </li>
+                <li><b>قابلية توسّع</b> الاستخدام عبر مهام ووظائف المراجعة المختلفة.</li>
+                <li>
+                  تحوّل الكفاءة المكتسبة في كل مرحلة إلى <b>قدرة مراجعة إضافية وتغطية أوسع للمخاطر</b>.
+                </li>
+                <li><b>استفادة أكبر</b> من وقت وخبرات فرق المراجعة.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ CLOSING ══════════════════════════════════════ -->
+        <section class="closing">
+          <div class="hexwash"></div>
+          <svg class="bighex" style="bottom: -70px; left: -60px; opacity: 0.09" width="220" height="254" viewBox="0 0 220 254">
+            <polygon points="110,0 220,63.5 220,190.5 110,254 0,190.5 0,63.5" />
+          </svg>
+          <svg class="bighex" style="top: -50px; right: 60px; opacity: 0.08" width="160" height="185" viewBox="0 0 160 185">
+            <polygon points="80,0 160,46 160,139 80,185 0,139 0,46" />
+          </svg>
+
+          <div class="quote">
+            <svg class="qmark" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M9.6 5.4c-3.4 1.4-5.6 4.5-5.6 8.2 0 3 1.9 5 4.5 5 2.3 0 4-1.6 4-3.8 0-2.1-1.5-3.6-3.5-3.6-.3 0-.6 0-.9.1.4-1.7 1.7-3.2 3.5-4.1zm9.4 0c-3.4 1.4-5.6 4.5-5.6 8.2 0 3 1.9 5 4.5 5 2.3 0 4-1.6 4-3.8 0-2.1-1.5-3.6-3.5-3.6-.3 0-.6 0-.9.1.4-1.7 1.7-3.2 3.5-4.1z"
+              />
+            </svg>
+            <p class="big">
+              القيمة الأساسية للمشروع ليست في <em>استبدال المراجع</em>،<br />
+              بل في <span>مضاعفة قدرته</span>.
+            </p>
+            <hr />
+            <p class="small">
+              <b>Orchestrator</b> ليس أداة ذكاء اصطناعي لتنفيذ أجزاء متفرقة من أعمال المراجعة، بل
+              منظومة متكاملة بُنيت حول رحلة المراجع نفسها، تربط عشرات الوكلاء والمهام والضوابط ونقاط
+              الاعتماد ضمن تجربة عمل واحدة؛ يتولى فيها الذكاء الاصطناعي الأعمال التي يمكن تسريعها
+              وتنظيمها، ويُترك للمراجع المساحة الأكبر لما يتطلب الخبرة والحكم المهني. وبهذا يشكل
+              <b>أساساً قابلاً للتوسع نحو نموذج مراجعة داخلية أكثر ذكاءً واتساقاً وكفاءة على مستوى stc</b>.
+            </p>
+          </div>
+        </section>
+
+        <footer>
+          <div class="fleft">
+            <img src="version2/stc-logo-white.png" alt="stc" />
+            <div class="fdiv"></div>
+            <span>الإدارة العامة للمراجعة الداخلية · التحول الرقمي والابتكار</span>
+          </div>
+          <div class="fright"><i></i><span>AI ORCHESTRATOR · 2026</span></div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ar" dir="rtl" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orchestrator &middot; Internal Audit &middot; stc</title>
+  
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">UQKRV34WMPZ3-1979299420-1462283</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">9f2edd7d-0229-4737-b6df-48be648f3ba0</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://pwceur.sharepoint.com/sites/ae-GSD-0AMnmKU7FMzEEUk9PVA/_layouts/15/DocIdRedir.aspx?ID=UQKRV34WMPZ3-1979299420-1462283, UQKRV34WMPZ3-1979299420-1462283</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+  <body dir="rtl" style="margin:0; padding:0; background-color:#eeeaf0; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+    <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse; background-color:#eeeaf0; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+      <tr>
+        <td align="center" style="padding:20px 10px;">
+
+          <table dir="ltr" role="presentation" width="720" border="0" cellpadding="0" cellspacing="0" style="width:720px; max-width:720px; border-collapse:collapse; background-color:#ffffff; mso-table-lspace:0pt; mso-table-rspace:0pt;">
+
+            <!-- TOPBAR -->
+            <tr>
+              <td bgcolor="#4f008c" style="background-color:#4f008c; padding:20px 28px;">
+                <table dir="ltr" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                  <tr>
+                    <!-- Replace this text wordmark with a hosted or CID image if desired: <img src="cid:stc-logo-white" width="60" height="30" alt="stc" style="display:block;border:0;" /> -->
+                    <td dir="ltr" valign="middle" style="padding-right:16px; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:26px; font-weight:bold; letter-spacing:-0.02em; line-height:30px;">stc</td>
+                    <td width="1" bgcolor="#ffffff" style="width:1px; font-size:0; line-height:0;">&nbsp;</td>
+                    <td dir="ltr" valign="middle" style="padding:0 16px; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; line-height:22px;">Internal Audit</td>
+                    <td width="1" bgcolor="#ffffff" style="width:1px; font-size:0; line-height:0;">&nbsp;</td>
+                    <td dir="ltr" valign="middle" style="padding-left:16px; color:#e9dcf3; font-family:Arial, Helvetica, sans-serif; font-size:14px; line-height:22px;">Audit Transformation &amp; Innovation</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- HERO -->
+            <tr>
+              <td style="padding:36px 28px 30px;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <td dir="ltr" align="left" style="color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:46px; font-weight:bold; letter-spacing:-2px; line-height:48px;">Orchestrator</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-top:20px; font-size:0; line-height:0;">
+                      <table dir="ltr" role="presentation" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                        <tr>
+                          <td width="63" height="7" bgcolor="#e6007e" style="width:63px; height:7px; font-size:0; line-height:7px;">&nbsp;</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td dir="rtl" align="right" style="padding-top:22px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:25px; font-weight:bold; line-height:38px; text-align:right;">حل الذكاء الاصطناعي للمراجعة الداخلية</td>
+                  </tr>
+                  <tr>
+                    <td dir="rtl" align="right" style="padding-top:14px; color:#5b3e77; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:15px; line-height:28px; text-align:right;">مساعد رقمي متكامل يرافق المراجع عبر رحلة المراجعة، ويربط السياق والمخاطر والتخطيط والاختبارات والملاحظات ضمن مسار عمل واحد مترابط.</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- STATS: 21 AGENTS / 08 WORKFLOWS -->
+            <tr>
+              <td style="padding:0 28px;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <td width="325" valign="top" style="width:325px;">
+                      <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#4f008c;">
+                        <tr>
+                          <td dir="rtl" valign="middle" align="right" style="padding:18px 16px 18px 18px; color:#ffffff; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:16px; font-weight:bold; line-height:24px; text-align:right;">
+                            مسارات عمل مترابطة
+                            <div style="margin-top:4px; color:#e5d5f0; font-size:13px; font-weight:normal; line-height:20px;">من السياق حتى صياغة الملاحظات</div>
+                          </td>
+                          <td dir="ltr" valign="middle" align="left" width="86" style="width:86px; padding:14px 0; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:46px; font-weight:bold; letter-spacing:-2px; line-height:50px;">08</td>
+                          <td width="7" bgcolor="#e6007e" style="width:7px; font-size:0; line-height:0;">&nbsp;</td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="14" style="width:14px; font-size:0; line-height:0;">&nbsp;</td>
+                    <td width="325" valign="top" style="width:325px;">
+                      <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#4f008c;">
+                        <tr>
+                          <td dir="rtl" valign="middle" align="right" style="padding:18px 16px 18px 18px; color:#ffffff; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:16px; font-weight:bold; line-height:24px; text-align:right;">
+                            وكيلاً ذكياً متخصصاً
+                            <div style="margin-top:4px; color:#e5d5f0; font-size:13px; font-weight:normal; line-height:20px;">لكل وكيل مهمة ونطاق محدد</div>
+                          </td>
+                          <td dir="ltr" valign="middle" align="left" width="86" style="width:86px; padding:14px 0; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:46px; font-weight:bold; letter-spacing:-2px; line-height:50px;">21</td>
+                          <td width="7" bgcolor="#e6007e" style="width:7px; font-size:0; line-height:0;">&nbsp;</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- ABOUT -->
+            <tr>
+              <td style="padding:34px 28px 0;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <td height="1" bgcolor="#cfc4d8" style="height:1px; font-size:0; line-height:1px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td dir="rtl" align="right" style="padding:26px 0 16px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:22px; font-weight:bold; line-height:32px; text-align:right;">ما هو حل Orchestrator؟</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse; background-color:#f3f0f5;">
+                        <tr>
+                          <td dir="rtl" valign="middle" align="right" style="padding:20px 20px 20px 22px; color:#544263; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:15px; line-height:29px; text-align:right;">
+                            <span style="color:#4f008c; font-weight:bold;">Orchestrator</span> <span style="color:#4f008c; font-weight:bold;">حل متعدد الوكلاء</span><br />صُمم ليعمل كمساعد رقمي متكامل للمراجع الداخلي، وليس كأداة منفصلة لمهمة واحدة. يرافق المراجع ويدعمه عبر كامل رحلة المراجعة، من فهم المهمة حتى صياغة الملاحظات.
+                          </td>
+                          <!-- Optional hosted or CID icon slot: replace the text block below with <img src="cid:icon-agents" width="76" height="76" alt="" style="display:block;border:0;" /> -->
+                          <td valign="middle" width="100" style="width:100px; padding:20px 0;">
+                            <table dir="ltr" role="presentation" width="76" border="0" cellpadding="0" cellspacing="0" style="width:76px; border-collapse:collapse; background-color:#2d0058;">
+                              <tr>
+                                <td dir="ltr" align="center" valign="middle" height="76" style="height:76px; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:22px; font-weight:bold; letter-spacing:0.06em; line-height:26px; text-align:center;">AI</td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td width="7" bgcolor="#e6007e" style="width:7px; font-size:0; line-height:0;">&nbsp;</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- WORKFLOW SEQUENCE (8 STEPS, RTL: 01 STARTS AT THE RIGHT) -->
+            <tr>
+              <td style="padding:34px 28px 0;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <td height="1" bgcolor="#cfc4d8" style="height:1px; font-size:0; line-height:1px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td dir="rtl" align="right" style="padding:26px 0 16px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:22px; font-weight:bold; line-height:32px; text-align:right;">كيف يعمل الحل؟</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                        <tr>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">04</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">بناء RCM</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td dir="ltr" width="16" align="center" valign="middle" style="width:16px; color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:20px; text-align:center;">&#8592;</td>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">03</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">إعداد APM</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td dir="ltr" width="16" align="center" valign="middle" style="width:16px; color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:20px; text-align:center;">&#8592;</td>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">02</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">تحديد المخاطر الكامنة</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td dir="ltr" width="16" align="center" valign="middle" style="width:16px; color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:20px; text-align:center;">&#8592;</td>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">01</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">فهم المهمة</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td height="12" style="height:12px; font-size:0; line-height:12px;">&nbsp;</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                        <tr>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">08</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">صياغة الملاحظات</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#f8f5fa; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">&nbsp;</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td dir="ltr" width="16" align="center" valign="middle" style="width:16px; color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:20px; text-align:center;">&#8592;</td>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">07</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">تنفيذ الاختبارات</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td dir="ltr" width="16" align="center" valign="middle" style="width:16px; color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:20px; text-align:center;">&#8592;</td>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">06</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">إعداد طلبات البيانات</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td dir="ltr" width="16" align="center" valign="middle" style="width:16px; color:#4f008c; font-family:Arial, Helvetica, sans-serif; font-size:15px; line-height:20px; text-align:center;">&#8592;</td>
+                          <td width="154" valign="top" style="width:154px;">
+                            <table dir="ltr" role="presentation" width="154" border="0" cellpadding="0" cellspacing="0" style="width:154px; border-collapse:collapse; background-color:#f8f5fa;">
+                              <tr><td height="3" bgcolor="#4f008c" style="height:3px; font-size:0; line-height:3px;">&nbsp;</td></tr>
+                              <tr>
+                                <td dir="rtl" align="center" valign="top" style="padding:12px 10px 14px; text-align:center;">
+                                  <div dir="ltr" style="color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:11px; font-weight:bold; letter-spacing:0.09em; line-height:16px; text-align:center;">05</div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="middle" height="46" style="height:46px; padding:6px 2px 8px; color:#32125d; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:19px; text-align:center;">إعداد خطة الاختبار</td></tr></table>
+                                  <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; background-color:#ffffff; border:1px solid #4f008c;">
+                                    <tr><td dir="rtl" align="center" valign="middle" width="52" height="26" style="width:52px; height:26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:11px; font-weight:bold; line-height:26px; text-align:center;">وكيل</td></tr>
+                                  </table>
+                                  <div style="padding-top:10px; font-size:0; line-height:0;">
+                                    <table dir="ltr" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                                      <tr><td width="2" height="12" bgcolor="#e6007e" style="width:2px; height:12px; font-size:0; line-height:12px;">&nbsp;</td></tr>
+                                    </table>
+                                  </div>
+                                  <table dir="ltr" role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%; border-collapse:collapse;"><tr><td dir="rtl" align="center" valign="top" height="32" style="height:32px; padding-top:6px; color:#e6007e; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:10px; font-weight:bold; line-height:15px; text-align:center;">مراجعة واعتماد المراجع</td></tr></table>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- DIFFERENTIATORS -->
+            <tr>
+              <td style="padding:34px 28px 0;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <td height="1" bgcolor="#cfc4d8" style="height:1px; font-size:0; line-height:1px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td dir="rtl" align="right" style="padding:26px 0 16px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:22px; font-weight:bold; line-height:32px; text-align:right;">ما الذي يميز Orchestrator؟</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                        <tr>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">مخرجات مترابطة</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">مخرجات كل مرحلة تصبح سياقاً ومدخلاً للمرحلة التالية.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">02</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td width="14" style="width:14px; font-size:0; line-height:0;">&nbsp;</td>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">وكلاء متخصصون</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">ليس Prompt واحداً ينفذ المهمة كاملة؛ كل وكيل مصمم لمهمة ونطاق محدد.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">01</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="13" style="height:13px; font-size:0; line-height:13px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                        <tr>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">مسار قابل للتتبع</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">مخرجات منظمة، أدلة أوضح، ونقاط مراجعة واعتماد محددة.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">04</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td width="14" style="width:14px; font-size:0; line-height:0;">&nbsp;</td>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">المراجع داخل دورة القرار</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">المراجعة والاعتماد البشري مدمجان بين المراحل الرئيسية.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">03</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- HUMAN IN THE LOOP -->
+            <tr>
+              <td style="padding:34px 28px 0;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse; background-color:#2d0058;">
+                  <tr>
+                    <td dir="rtl" valign="middle" align="right" style="padding:24px 20px 24px 26px; text-align:right;">
+                      <div style="color:#ffffff; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:20px; font-weight:bold; line-height:32px;">Orchestrator <span style="color:#ff9bcf;">لا يستبدل المراجع.</span><br />بل يمنحه وقتاً أكبر للحكم المهني والتفكير الناقد.</div>
+                      <div style="padding-top:8px; color:#ddd0e8; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:24px;">يتولى الجزء المتكرر والمنهجي من العمل، ليتمكن المراجع من التركيز على تحليل المخاطر، تقييم النتائج، طرح الأسئلة المهمة، واتخاذ القرارات التي تتطلب خبرته المهنية.</div>
+                    </td>
+                    <!-- Optional hosted or CID icon slot: replace the text block below with <img src="cid:icon-review" width="70" height="70" alt="" style="display:block;border:0;" /> -->
+                    <td valign="middle" width="94" style="width:94px; padding:24px 0;">
+                      <table dir="ltr" role="presentation" width="70" border="0" cellpadding="0" cellspacing="0" style="width:70px; border-collapse:collapse; border:1px solid #8f6fb0;">
+                        <tr>
+                          <td dir="rtl" align="center" valign="middle" height="70" style="height:70px; color:#ffffff; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; font-weight:bold; line-height:20px; text-align:center;">المراجع</td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td width="8" bgcolor="#e6007e" style="width:8px; font-size:0; line-height:0;">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- IMPACT -->
+            <tr>
+              <td style="padding:34px 28px 0;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <td height="1" bgcolor="#cfc4d8" style="height:1px; font-size:0; line-height:1px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td dir="rtl" align="right" style="padding:26px 0 16px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:22px; font-weight:bold; line-height:32px; text-align:right;">الأثر المتوقع</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                        <tr>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">تركيز أكبر على الحكم المهني</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">إتاحة مساحة أكبر لتحليل المخاطر، مناقشة النتائج، وتقييم ما يتطلب خبرة المراجع.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">02</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td width="14" style="width:14px; font-size:0; line-height:0;">&nbsp;</td>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">وقت أكبر للأعمال ذات القيمة</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">تقليل الوقت المستهلك في تحليل المستندات، إعداد المسودات، وتجهيز المدخلات المتكررة.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">01</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="13" style="height:13px; font-size:0; line-height:13px;">&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                        <tr>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">وضوح وتتبع أفضل</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">ربط أوضح بين السياق والمخاطر والاختبارات والأدلة والملاحظات طوال دورة المراجعة.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">04</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                          <td width="14" style="width:14px; font-size:0; line-height:0;">&nbsp;</td>
+                          <td width="325" valign="top" style="width:325px;">
+                            <table dir="ltr" role="presentation" width="325" border="0" cellpadding="0" cellspacing="0" style="width:325px; border-collapse:collapse; background-color:#f3f0f5;">
+                              <tr>
+                                <td dir="rtl" valign="top" align="right" style="padding:15px 12px 15px 16px; text-align:right;">
+                                  <div style="color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:17px; font-weight:bold; line-height:24px;">اتساق أعلى في التنفيذ</div>
+                                  <div style="padding-top:5px; color:#5c4d68; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:13px; line-height:22px;">توحيد أكبر لجودة ومنهجية المخرجات عبر مراحل وفرق المراجعة المختلفة.</div>
+                                </td>
+                                <td dir="ltr" valign="top" align="left" width="38" style="width:38px; padding:16px 0 0; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:15px; font-weight:bold; letter-spacing:0.08em; line-height:20px;">03</td>
+                                <td width="4" bgcolor="#e6007e" style="width:4px; font-size:0; line-height:0;">&nbsp;</td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- CLOSING -->
+            <tr>
+              <td style="padding:34px 28px 40px;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse; background-color:#f3f0f5;">
+                  <tr>
+                    <td dir="rtl" align="right" style="padding:20px 20px 20px 26px; color:#4f008c; font-family:'Segoe UI', Tahoma, Arial, sans-serif; font-size:19px; font-weight:bold; line-height:30px; text-align:right;">أساس رقمي قابل للتوسع لتطبيق الذكاء الاصطناعي عبر المراجعة الداخلية.</td>
+                    <td width="8" bgcolor="#e6007e" style="width:8px; font-size:0; line-height:0;">&nbsp;</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- FOOTER -->
+            <tr>
+              <td bgcolor="#2d0058" style="background-color:#2d0058; padding:20px 28px;">
+                <table dir="ltr" role="presentation" width="664" border="0" cellpadding="0" cellspacing="0" style="width:664px; border-collapse:collapse;">
+                  <tr>
+                    <!-- Replace this text wordmark with a hosted or CID image if desired: <img src="cid:stc-logo-white" width="48" height="24" alt="stc" style="display:block;border:0;" /> -->
+                    <td dir="ltr" valign="middle" align="left" width="70" style="width:70px; color:#ffffff; font-family:Arial, Helvetica, sans-serif; font-size:20px; font-weight:bold; letter-spacing:-0.02em; line-height:26px;">stc</td>
+                    <td dir="ltr" valign="middle" align="center" style="color:#d8c9e4; font-family:Arial, Helvetica, sans-serif; font-size:13px; line-height:20px; text-align:center;">Audit Transformation &amp; Innovation</td>
+                    <td dir="ltr" valign="middle" align="right" width="90" style="width:90px; color:#e6007e; font-family:Arial, Helvetica, sans-serif; font-size:12px; font-weight:bold; letter-spacing:0.08em; line-height:20px; text-align:right;">AI CORE</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+          </table>
+
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

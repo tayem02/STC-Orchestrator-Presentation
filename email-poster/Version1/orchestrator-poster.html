@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="ar" dir="rtl" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>منظومة Orchestrator للذكاء الاصطناعي في المراجعة الداخلية · stc</title>
+    <link rel="stylesheet" href="version2/fonts.css" />
+    <style>
+      :root {
+        --ink: #05010e;
+        --stc-purple: #4f008c;
+        --magenta: #e91e8c;
+        --violet: #7c3aed;
+        --lilac: #bda7ff;
+        --sub: rgba(255, 255, 255, 0.74);
+        --muted: rgba(255, 255, 255, 0.56);
+        --hint: rgba(255, 255, 255, 0.4);
+        --line: rgba(255, 255, 255, 0.11);
+        --line-2: rgba(255, 255, 255, 0.2);
+        --hex: url("data:image/svg+xml,%3Csvg width='56' height='100' viewBox='0 0 56 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23ffffff' stroke-width='1'/%3E%3C/svg%3E");
+        --heading: "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+        --body: "IBM Plex Sans Arabic", "Readex Pro", "Segoe UI", Tahoma, sans-serif;
+        --latin: "Outfit", "Readex Pro", "Segoe UI", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #030109;
+        color: #fff;
+        font-family: var(--body);
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      .stage {
+        display: flex;
+        justify-content: center;
+      }
+
+      .poster {
+        position: relative;
+        width: 1040px;
+        overflow: hidden;
+        background:
+          radial-gradient(1100px 620px at 82% -8%, rgba(233, 30, 140, 0.2), transparent 62%),
+          radial-gradient(940px 560px at 8% 4%, rgba(124, 58, 237, 0.24), transparent 60%),
+          linear-gradient(178deg, #150735 0%, #0d0421 34%, #0a0319 68%, #100528 100%);
+      }
+
+      /* ── shared bits ─────────────────────────────────────────── */
+
+      .hexwash {
+        position: absolute;
+        z-index: 0;
+        background-image: var(--hex);
+        background-size: 56px 100px;
+        opacity: 0.05;
+      }
+
+      .glow {
+        position: absolute;
+        z-index: 0;
+        border-radius: 50%;
+        pointer-events: none;
+      }
+
+      .bighex {
+        position: absolute;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .bighex polygon {
+        fill: none;
+        stroke: #fff;
+        stroke-width: 1.2;
+      }
+
+      /* Accents flow from the right, matching the RTL reading direction. */
+      .rule {
+        height: 1px;
+        border: 0;
+        margin: 0;
+        background: linear-gradient(-90deg, var(--magenta), rgba(124, 58, 237, 0.55) 34%, rgba(255, 255, 255, 0));
+      }
+
+      .topedge {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 5;
+        height: 4px;
+        background: linear-gradient(-90deg, #ff5fb4, var(--magenta) 22%, var(--violet) 58%, rgba(79, 0, 140, 0.5));
+      }
+
+      /* ── hero ────────────────────────────────────────────────── */
+
+      .hero {
+        position: relative;
+        padding: 38px 60px 0;
+      }
+
+      .hero .hexwash {
+        inset: 0;
+        opacity: 0.07;
+        -webkit-mask-image: linear-gradient(200deg, #000 0%, rgba(0, 0, 0, 0.3) 58%, transparent 90%);
+        mask-image: linear-gradient(200deg, #000 0%, rgba(0, 0, 0, 0.3) 58%, transparent 90%);
+      }
+
+      .topbar {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .topbar img {
+        display: block;
+        width: 64px;
+        height: 32px;
+        object-fit: contain;
+      }
+
+      .datechip {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 6px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--sub);
+        font-family: var(--heading);
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .datechip i {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--magenta);
+        box-shadow: 0 0 9px var(--magenta);
+      }
+
+      .kicker {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 30px 0 0;
+        color: var(--magenta);
+        font-family: var(--heading);
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .kicker::before {
+        display: block;
+        width: 30px;
+        height: 2px;
+        border-radius: 2px;
+        background: linear-gradient(-90deg, var(--magenta), rgba(233, 30, 140, 0.1));
+        content: "";
+      }
+
+      h1 {
+        position: relative;
+        z-index: 2;
+        margin: 14px 0 0;
+        font-family: var(--heading);
+        font-size: 45px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.32;
+      }
+
+      h1 .brand {
+        background: linear-gradient(94deg, #ff5fb4 6%, #e91e8c 38%, #a78bfa 92%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+      }
+
+      h1 small {
+        display: block;
+        margin-top: 8px;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 1.4;
+      }
+
+      .lead {
+        position: relative;
+        z-index: 2;
+        max-width: 780px;
+        margin: 20px 0 0;
+        color: var(--sub);
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 1.9;
+      }
+
+      .lead b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* ── metrics ─────────────────────────────────────────────── */
+
+      .metrics {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        margin: 30px 0 0;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: linear-gradient(-90deg, rgba(233, 30, 140, 0.14), rgba(124, 58, 237, 0.12) 55%, rgba(255, 255, 255, 0.03));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09);
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .metric {
+        position: relative;
+        padding: 20px 24px 19px;
+      }
+
+      .metric + .metric::before {
+        position: absolute;
+        top: 18px;
+        right: 0;
+        bottom: 18px;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.22), transparent);
+        content: "";
+      }
+
+      .metric em {
+        display: block;
+        background: linear-gradient(180deg, #fff 20%, #ffc4e6 78%, #ff8ecd 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-family: var(--heading);
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1;
+      }
+
+      .metric span {
+        display: block;
+        margin-top: 9px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 13.5px;
+        line-height: 1.5;
+      }
+
+      .metric small {
+        display: block;
+        margin-top: 3px;
+        color: var(--hint);
+        font-size: 11.5px;
+        font-weight: 300;
+        line-height: 1.5;
+      }
+
+      /* ── sections ────────────────────────────────────────────── */
+
+      section.block {
+        position: relative;
+        padding: 34px 60px;
+      }
+
+      section.block.tinted {
+        border-top: 1px solid rgba(255, 255, 255, 0.07);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.028), rgba(255, 255, 255, 0));
+      }
+
+      .shead {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 20px;
+      }
+
+      .shead-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+
+      .snum {
+        display: flex;
+        width: 38px;
+        height: 38px;
+        flex: 0 0 38px;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(233, 30, 140, 0.5);
+        border-radius: 11px;
+        background: linear-gradient(150deg, rgba(233, 30, 140, 0.24), rgba(124, 58, 237, 0.14));
+        box-shadow: 0 0 20px rgba(233, 30, 140, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        color: #ffd3ec;
+        font-family: var(--heading);
+        font-size: 13.5px;
+        font-weight: 700;
+      }
+
+      .shead h2 {
+        margin: 0;
+        font-family: var(--heading);
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .shead .rule {
+        margin-top: 14px;
+      }
+
+      .prose {
+        position: relative;
+        z-index: 2;
+        margin: 0;
+        color: var(--sub);
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 1.95;
+      }
+
+      .prose b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      .prose .mg {
+        color: #ff8ecd;
+        font-weight: 500;
+      }
+
+      /* ── differentiator pills ────────────────────────────────── */
+
+      .pills {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        margin-top: 20px;
+        gap: 12px;
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .pill {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        padding: 13px 15px;
+        border: 1px solid var(--line-2);
+        border-radius: 13px;
+        background: rgba(255, 255, 255, 0.035);
+      }
+
+      .pill svg {
+        width: 19px;
+        height: 19px;
+        flex: 0 0 19px;
+        color: var(--magenta);
+      }
+
+      .pill span {
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      /* ── governance pillars ──────────────────────────────────── */
+
+      .pillars {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        gap: 13px;
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .pillar {
+        padding: 18px 17px 19px;
+        border: 1px solid var(--line-2);
+        border-radius: 16px;
+        background: linear-gradient(168deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.012));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      }
+
+      .hexicon {
+        position: relative;
+        display: flex;
+        width: 40px;
+        height: 45px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .hexicon svg.hexbg {
+        position: absolute;
+        inset: 0;
+        width: 40px;
+        height: 45px;
+      }
+
+      .hexicon svg.hexbg polygon {
+        fill: rgba(233, 30, 140, 0.14);
+        stroke: rgba(233, 30, 140, 0.6);
+        stroke-width: 1.4;
+      }
+
+      .hexicon svg.glyph {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        color: #ff9bd3;
+      }
+
+      .pillar h4 {
+        margin: 13px 0 0;
+        font-family: var(--heading);
+        font-size: 14.5px;
+        font-weight: 600;
+        line-height: 1.45;
+      }
+
+      .pillar p {
+        margin: 7px 0 0;
+        color: var(--sub);
+        font-size: 12.5px;
+        font-weight: 300;
+        line-height: 1.75;
+      }
+
+      .assurance {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-top: 16px;
+        padding: 17px 22px;
+        border: 1px solid rgba(233, 30, 140, 0.34);
+        border-radius: 16px;
+        background: linear-gradient(-90deg, rgba(233, 30, 140, 0.16), rgba(124, 58, 237, 0.08) 70%, rgba(255, 255, 255, 0.02));
+      }
+
+      .assurance svg {
+        width: 24px;
+        height: 24px;
+        flex: 0 0 24px;
+        color: #ff8ecd;
+      }
+
+      .assurance p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.94);
+        font-size: 14px;
+        line-height: 1.75;
+      }
+
+      /* ── impact ──────────────────────────────────────────────── */
+
+      .impact {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .icard {
+        position: relative;
+        overflow: hidden;
+        padding: 22px 22px 24px;
+        border: 1px solid var(--line-2);
+        border-radius: 18px;
+        background: linear-gradient(170deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.014));
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      }
+
+      .icard .hexwash {
+        inset: 0;
+        opacity: 0.045;
+      }
+
+      .icard-head {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.13);
+      }
+
+      .icard-head svg {
+        width: 21px;
+        height: 21px;
+        flex: 0 0 21px;
+        color: var(--magenta);
+      }
+
+      .icard-head h3 {
+        margin: 0;
+        font-family: var(--heading);
+        font-size: 16.5px;
+        font-weight: 600;
+        line-height: 1.45;
+      }
+
+      .icard ul {
+        position: relative;
+        z-index: 2;
+        margin: 15px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .icard li {
+        position: relative;
+        padding-right: 24px;
+        color: var(--sub);
+        font-size: 13.5px;
+        font-weight: 300;
+        line-height: 1.8;
+      }
+
+      .icard li + li {
+        margin-top: 11px;
+      }
+
+      .icard li::before {
+        position: absolute;
+        top: 9px;
+        right: 3px;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: linear-gradient(140deg, var(--magenta), var(--violet));
+        box-shadow: 0 0 8px rgba(233, 30, 140, 0.55);
+        content: "";
+        transform: rotate(45deg);
+      }
+
+      .icard li b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* ── closing ─────────────────────────────────────────────── */
+
+      .closing {
+        position: relative;
+        overflow: hidden;
+        padding: 40px 60px 38px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        background:
+          radial-gradient(760px 420px at 78% 130%, rgba(233, 30, 140, 0.22), transparent 62%),
+          radial-gradient(680px 380px at 14% -30%, rgba(124, 58, 237, 0.22), transparent 60%),
+          linear-gradient(180deg, #0a0319, #150735);
+      }
+
+      .closing .hexwash {
+        inset: 0;
+        opacity: 0.06;
+      }
+
+      .quote {
+        position: relative;
+        z-index: 2;
+        max-width: 820px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .quote .qmark {
+        display: block;
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 4px;
+        color: rgba(233, 30, 140, 0.85);
+      }
+
+      .quote p.big {
+        margin: 0;
+        font-family: var(--heading);
+        font-size: 25px;
+        font-weight: 500;
+        line-height: 1.68;
+      }
+
+      .quote p.big span {
+        background: linear-gradient(94deg, #ff77c1, #ffb3de 45%, #c9b3ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+      }
+
+      .quote p.big em {
+        color: rgba(255, 255, 255, 0.58);
+        font-style: normal;
+        font-weight: 400;
+        text-decoration: line-through;
+        text-decoration-color: rgba(233, 30, 140, 0.65);
+        text-decoration-thickness: 2px;
+      }
+
+      .quote hr {
+        width: 76px;
+        height: 2px;
+        border: 0;
+        margin: 20px auto;
+        border-radius: 2px;
+        background: linear-gradient(90deg, rgba(233, 30, 140, 0.1), var(--magenta), rgba(124, 58, 237, 0.1));
+      }
+
+      .quote p.small {
+        margin: 0;
+        color: var(--sub);
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1.9;
+      }
+
+      .quote p.small b {
+        color: #fff;
+        font-weight: 500;
+      }
+
+      /* Points at the workflow deck travelling with the same email. */
+      .attach {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 11px;
+        margin: 26px auto 0;
+        padding: 12px 22px;
+        width: fit-content;
+        border: 1px dashed rgba(189, 167, 255, 0.5);
+        border-radius: 999px;
+        background: rgba(124, 58, 237, 0.12);
+        color: var(--lilac);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .attach svg {
+        width: 17px;
+        height: 17px;
+        flex: 0 0 17px;
+      }
+
+      .attach b {
+        color: #e6dbff;
+        font-weight: 600;
+      }
+
+      /* ── footer ──────────────────────────────────────────────── */
+
+      footer {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 19px 60px 21px;
+        border-top: 1px solid rgba(255, 255, 255, 0.18);
+        background: #05010e;
+      }
+
+      footer .fleft {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+      }
+
+      footer img {
+        display: block;
+        width: 48px;
+        height: 24px;
+        object-fit: contain;
+      }
+
+      footer .fdiv {
+        width: 1px;
+        height: 19px;
+        background: rgba(255, 255, 255, 0.18);
+      }
+
+      footer .fleft > span {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 300;
+      }
+
+      /* Mirrors the slide chrome in the deck: 13px, pink hairline dividers,
+         "AI Core" set in Outfit 800. */
+      .slide-footer {
+        display: flex;
+        align-items: center;
+        gap: 23px;
+        color: rgba(255, 255, 255, 0.62);
+        font-family: var(--latin);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.025em;
+        white-space: nowrap;
+      }
+
+      .slide-footer i {
+        width: 1px;
+        height: 18px;
+        flex: 0 0 1px;
+        background: var(--magenta);
+      }
+
+      .slide-footer .footer-ai-core {
+        color: var(--magenta);
+        font-family: var(--latin);
+        font-weight: 800;
+      }
+    </style>
+  
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">UQKRV34WMPZ3-1979299420-1461457</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">6c1912f5-612b-47fb-bd7c-1351621b904d</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://pwceur.sharepoint.com/sites/ae-GSD-0AMnmKU7FMzEEUk9PVA/_layouts/15/DocIdRedir.aspx?ID=UQKRV34WMPZ3-1979299420-1461457, UQKRV34WMPZ3-1979299420-1461457</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+  <body>
+    <div class="stage">
+      <div class="poster">
+        <div class="topedge"></div>
+
+        <!-- ══ HERO ══════════════════════════════════════════ -->
+        <header class="hero">
+          <div class="hexwash"></div>
+          <div
+            class="glow"
+            style="top: -180px; left: -140px; width: 440px; height: 440px; background: radial-gradient(circle, rgba(124,58,237,.34), transparent 66%)"
+          ></div>
+          <div
+            class="glow"
+            style="top: -120px; right: -110px; width: 400px; height: 400px; background: radial-gradient(circle, rgba(233,30,140,.3), transparent 66%)"
+          ></div>
+          <svg class="bighex" style="top: 96px; left: -70px; opacity: 0.1" width="230" height="266" viewBox="0 0 230 266">
+            <polygon points="115,0 230,66.5 230,199.5 115,266 0,199.5 0,66.5" />
+          </svg>
+          <svg class="bighex" style="top: 14px; right: 110px; opacity: 0.09" width="140" height="162" viewBox="0 0 140 162">
+            <polygon points="70,0 140,40.5 140,121.5 70,162 0,121.5 0,40.5" />
+          </svg>
+
+          <div class="topbar">
+            <img src="version2/stc-logo-white.png" alt="stc" />
+            <div class="datechip"><i></i><span>2026 · الإدارة العامة للمراجعة الداخلية</span></div>
+          </div>
+
+          <p class="kicker">التحول الرقمي والابتكار في المراجعة الداخلية</p>
+
+          <h1>
+            منظومة <span class="brand">Orchestrator</span>
+            <small>للذكاء الاصطناعي في المراجعة الداخلية</small>
+          </h1>
+
+          <p class="lead">
+            منظومة متكاملة للذكاء الاصطناعي طُوّرت لإعادة تصميم طريقة تنفيذ أعمال المراجعة الداخلية في
+            <b>stc</b>، تعمل كـ<b>مساعد رقمي متكامل للمراجع عبر رحلة المراجعة</b> — من إعداد المهمة
+            وبناء السياق حتى صياغة الملاحظات — وليست أداة مستقلة لتنفيذ مهمة واحدة.
+          </p>
+
+          <div class="metrics">
+            <div class="metric">
+              <em>08</em>
+              <span>مسارات عمل مترابطة</span>
+              <small>من إعداد المهمة حتى صياغة الملاحظات</small>
+            </div>
+            <div class="metric">
+              <em>21</em>
+              <span>وكيلاً ذكياً متخصصاً</span>
+              <small>لكل وكيل مهمة ومدخلات ومخرجات محددة</small>
+            </div>
+          </div>
+        </header>
+
+        <!-- ══ 01 · WHAT MAKES IT DIFFERENT ═════════════════ -->
+        <section class="block">
+          <div class="hexwash" style="inset: 0; opacity: 0.03"></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">01</div>
+              <h2>ما يميز المشروع؟</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <p class="prose">
+            يكمن تميّز <span class="mg">Orchestrator</span> في تحويل منهجية المراجعة إلى
+            <b>منظومة رقمية مترابطة</b> تعمل كسلسلة واحدة؛ لكل وكيل فيها مهمة محددة، ومدخلات ومخرجات
+            واضحة، وضوابط جودة واعتماد، ومخرجات كل مرحلة تصبح مدخلات موثقة للمرحلة التالية — بينما يبقى
+            <b>المراجع صاحب القرار في المراحل الرئيسية</b>.
+          </p>
+
+          <div class="pills">
+            <div class="pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3.2" />
+                <path d="M12 2v3.2M12 18.8V22M2 12h3.2M18.8 12H22M4.9 4.9l2.3 2.3M16.8 16.8l2.3 2.3M19.1 4.9l-2.3 2.3M7.2 16.8l-2.3 2.3" />
+              </svg>
+              <span>مهمة محددة لكل وكيل ذكي</span>
+            </div>
+            <div class="pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7h7l2 2.5h9" />
+                <path d="M21 17h-7l-2-2.5H3" />
+                <path d="M6 4.5 3.2 7 6 9.5" />
+                <path d="M18 12.2l2.8 2.5-2.8 2.5" />
+              </svg>
+              <span>مدخلات ومخرجات واضحة</span>
+            </div>
+            <div class="pill">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.6 20 6v6.2c0 4.4-3.3 7.7-8 9.2-4.7-1.5-8-4.8-8-9.2V6z" />
+                <path d="M8.6 11.9l2.5 2.5 4.3-4.5" />
+              </svg>
+              <span>ضوابط جودة ونقاط اعتماد</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ 02 · GOVERNANCE ══════════════════════════════ -->
+        <section class="block tinted">
+          <div class="hexwash" style="inset: 0; opacity: 0.04"></div>
+          <div
+            class="glow"
+            style="top: 30px; right: -130px; width: 420px; height: 420px; background: radial-gradient(circle, rgba(233,30,140,.15), transparent 66%)"
+          ></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">02</div>
+              <h2>حوكمة وضوابط مدمجة داخل طريقة العمل</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <div class="pillars">
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 40 45"><polygon points="20,1 39,11.75 39,33.25 20,44 1,33.25 1,11.75" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3.8" width="7.6" height="5.4" rx="1.4" />
+                  <rect x="13.4" y="14.8" width="7.6" height="5.4" rx="1.4" />
+                  <path d="M6.8 9.2v5a2.3 2.3 0 0 0 2.3 2.3h4.3" />
+                </svg>
+              </div>
+              <h4>مدخلات ومخرجات محددة</h4>
+              <p>لكل مسار مدخلات ومخرجات موثقة، ومخرجات كل مسار تصبح مدخلاً للمسار التالي.</p>
+            </div>
+
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 40 45"><polygon points="20,1 39,11.75 39,33.25 20,44 1,33.25 1,11.75" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4.2 12a7.8 7.8 0 0 1 13.3-5.5l2.7 2.6" />
+                  <path d="M19.8 12a7.8 7.8 0 0 1-13.3 5.5l-2.7-2.6" />
+                  <path d="M20.4 4.4v4.7h-4.7" />
+                  <path d="M3.6 19.6v-4.7h4.7" />
+                </svg>
+              </div>
+              <h4>دورات مراجعة وتعليقات</h4>
+              <p>يراجع المراجع المسودات ويضيف تعليقاته، وتعيد المنظومة الصياغة حتى الاعتماد.</p>
+            </div>
+
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 40 45"><polygon points="20,1 39,11.75 39,33.25 20,44 1,33.25 1,11.75" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.4 12.2c0 3.9-3.8 7.1-8.4 7.1-.8 0-1.6-.1-2.4-.3L4.8 20.6l1.3-3.4a6.8 6.8 0 0 1-2.5-5c0-3.9 3.8-7.1 8.4-7.1s8.4 3.2 8.4 7.1z" />
+                  <path d="M10.2 10.1a1.9 1.9 0 0 1 3.7.6c0 1.3-1.9 1.6-1.9 2.9" />
+                  <path d="M12 15.9h.02" />
+                </svg>
+              </div>
+              <h4>أسئلة استيضاح للمراجع</h4>
+              <p>تسأل المنظومة المراجع عن مصادر البيانات المعروفة قبل توليد طلب البيانات.</p>
+            </div>
+
+            <div class="pillar">
+              <div class="hexicon">
+                <svg class="hexbg" viewBox="0 0 40 45"><polygon points="20,1 39,11.75 39,33.25 20,44 1,33.25 1,11.75" /></svg>
+                <svg class="glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="6.4" cy="5.6" r="2.3" />
+                  <circle cx="17.6" cy="12" r="2.3" />
+                  <circle cx="17.6" cy="18.6" r="2.3" />
+                  <path d="M6.4 7.9v10.7h8.9" />
+                  <path d="M6.4 12h8.9" />
+                </svg>
+              </div>
+              <h4>تصنيف الاختبارات وتوجيهها</h4>
+              <p>يُصنَّف كل اختبار إلى إحدى أربع طرق تنفيذ ويُوجَّه إلى المنفّذ المناسب.</p>
+            </div>
+          </div>
+
+          <div class="assurance">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2.6 20 6v6.2c0 4.4-3.3 7.7-8 9.2-4.7-1.5-8-4.8-8-9.2V6z" />
+              <path d="M8.6 11.9l2.5 2.5 4.3-4.5" />
+            </svg>
+            <p>
+              ذكاء اصطناعي يعمل ضمن <b>نطاق واضح ومخرجات منظمة ومسار قابل للتتبع والمراجعة</b> — مع
+              بقاء الحكم المهني والاعتماد النهائي بيد المراجع.
+            </p>
+          </div>
+        </section>
+
+        <!-- ══ 03 · IMPACT ══════════════════════════════════ -->
+        <section class="block">
+          <div class="hexwash" style="inset: 0; opacity: 0.03"></div>
+          <div class="shead">
+            <div class="shead-row">
+              <div class="snum">03</div>
+              <h2>الأثر المتوقع</h2>
+            </div>
+            <hr class="rule" />
+          </div>
+
+          <div class="impact">
+            <div class="icard">
+              <div class="hexwash"></div>
+              <div class="icard-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="9" cy="7.8" r="3.4" />
+                  <path d="M2.8 20.4a6.2 6.2 0 0 1 12.4 0" />
+                  <path d="M16.4 4.8a3.4 3.4 0 0 1 0 6M18.2 14.6a6.2 6.2 0 0 1 3 5.8" />
+                </svg>
+                <h3>على مستوى إدارة المراجعة الداخلية</h3>
+              </div>
+              <ul>
+                <li>
+                  <b>تقليل الوقت المستهلك</b> في تحليل المستندات وإعداد المسودات وبناء المصفوفات
+                  وتنفيذ الاختبارات وتحليلها.
+                </li>
+                <li>
+                  <b>تركيز أكبر للمراجع</b> على الحكم المهني وتحليل المخاطر ومناقشة النتائج.
+                </li>
+                <li>
+                  <b>توحيد الجودة والمنهجية</b> بين الفرق، وتتبع أوضح للعمل والأدلة والقرارات.
+                </li>
+              </ul>
+            </div>
+
+            <div class="icard">
+              <div class="hexwash"></div>
+              <div class="icard-head">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="9.2" />
+                  <path d="M2.8 12h18.4" />
+                  <path d="M12 2.8c2.6 2.6 4 5.8 4 9.2s-1.4 6.6-4 9.2c-2.6-2.6-4-5.8-4-9.2s1.4-6.6 4-9.2z" />
+                </svg>
+                <h3>على مستوى stc</h3>
+              </div>
+              <ul>
+                <li>
+                  <b>نموذج عملي متقدم</b> لتوظيف الذكاء الاصطناعي داخل وظيفة مؤسسية متكاملة.
+                </li>
+                <li>
+                  <b>قابلية توسّع</b> الاستخدام عبر مهام ووظائف المراجعة المختلفة.
+                </li>
+                <li>
+                  تحوّل الكفاءة المكتسبة إلى <b>قدرة مراجعة إضافية وتغطية أوسع للمخاطر</b>.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ══ CLOSING ══════════════════════════════════════ -->
+        <section class="closing">
+          <div class="hexwash"></div>
+          <svg class="bighex" style="bottom: -80px; left: -60px; opacity: 0.09" width="210" height="242" viewBox="0 0 210 242">
+            <polygon points="105,0 210,60.5 210,181.5 105,242 0,181.5 0,60.5" />
+          </svg>
+          <svg class="bighex" style="top: -60px; right: 50px; opacity: 0.08" width="150" height="173" viewBox="0 0 150 173">
+            <polygon points="75,0 150,43 150,130 75,173 0,130 0,43" />
+          </svg>
+
+          <div class="quote">
+            <svg class="qmark" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M9.6 5.4c-3.4 1.4-5.6 4.5-5.6 8.2 0 3 1.9 5 4.5 5 2.3 0 4-1.6 4-3.8 0-2.1-1.5-3.6-3.5-3.6-.3 0-.6 0-.9.1.4-1.7 1.7-3.2 3.5-4.1zm9.4 0c-3.4 1.4-5.6 4.5-5.6 8.2 0 3 1.9 5 4.5 5 2.3 0 4-1.6 4-3.8 0-2.1-1.5-3.6-3.5-3.6-.3 0-.6 0-.9.1.4-1.7 1.7-3.2 3.5-4.1z"
+              />
+            </svg>
+            <p class="big">
+              القيمة الأساسية للمشروع ليست في <em>استبدال المراجع</em>،<br />
+              بل في <span>مضاعفة قدرته</span>.
+            </p>
+            <hr />
+            <p class="small">
+              <b>Orchestrator</b> منظومة متكاملة بُنيت حول رحلة المراجع نفسها، تربط الوكلاء والمهام
+              والمخرجات ونقاط المراجعة ضمن تجربة عمل واحدة؛ وتشكل
+              <b>أساساً قابلاً للتوسع نحو نموذج مراجعة داخلية أكثر ذكاءً واتساقاً وكفاءة على مستوى stc</b>.
+            </p>
+
+            <div class="attach">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 2.8H7.2A2.2 2.2 0 0 0 5 5v14a2.2 2.2 0 0 0 2.2 2.2h9.6A2.2 2.2 0 0 0 19 19V7.8z" />
+                <path d="M14 2.8V7.8H19" />
+                <path d="M8.6 12.5h6.8M8.6 16.2h4.4" />
+              </svg>
+              <span>تفاصيل <b>المسارات الثمانية والوكلاء الـ 21</b> في العرض المرفق مع البريد</span>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="fleft">
+            <img src="version2/stc-logo-white.png" alt="stc" />
+            <div class="fdiv"></div>
+            <span>الإدارة العامة للمراجعة الداخلية</span>
+          </div>
+          <div class="slide-footer" dir="ltr">
+            <span>Audit Transformation &amp; Innovation</span>
+            <i></i>
+            <span>Orchestrator Transformation</span>
+            <i></i>
+            <span class="footer-ai-core">AI Core</span>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

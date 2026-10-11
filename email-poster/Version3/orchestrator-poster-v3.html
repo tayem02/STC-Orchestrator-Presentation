@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ar" dir="rtl" xmlns:mso="urn:schemas-microsoft-com:office:office" xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orchestrator · Internal Audit · stc</title>
+    <link rel="stylesheet" href="fonts.css" />
+    <style>
+      :root {
+        --purple: #4f008c;
+        --deep-purple: #2d0058;
+        --pink: #e6007e;
+        --ink: #32125d;
+        --grey: #f3f0f5;
+        --line: #cfc4d8;
+        --body: "IBM Plex Sans Arabic", "Readex Pro", "Segoe UI", Tahoma, sans-serif;
+        --heading: "Readex Pro", "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body { background: #eeeaf0; color: var(--ink); font-family: var(--body); }
+      .stage { display: flex; justify-content: center; }
+      .poster { position: relative; width: 1040px; overflow: hidden; background: #fff; }
+
+      .masthead {
+        position: relative;
+        min-height: 405px;
+        padding: 42px 62px;
+        overflow: hidden;
+        background: #fff;
+      }
+      .topbar, .hero { position: relative; z-index: 1; }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 16px;
+        height: 102px;
+        margin: -42px -62px 0;
+        padding: 0 62px;
+        background: var(--purple);
+        direction: ltr;
+      }
+      .topbar img { display: block; width: 77px; height: 39px; object-fit: contain; }
+      .topbar i { width: 1px; height: 30px; background: rgba(255, 255, 255, 0.55); }
+      .topbar span { color: #fff; font-family: Arial, sans-serif; font-size: 17px; font-weight: 600; }
+      .topbar .transformation { font-weight: 400; opacity: 0.84; }
+      .hero { max-width: none; margin-top: 50px; }
+      .hero h1 { margin: 0; direction: ltr; text-align: left; background: linear-gradient(100deg, var(--purple) 0%, var(--purple) 22%, #bd006f 42%, var(--pink) 62%, var(--pink) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--pink); font-family: Arial, sans-serif; font-size: 64px; font-weight: 800; letter-spacing: -0.045em; line-height: 0.98; }
+      .hero h2 { margin: 28px 0 0; font-family: var(--heading); font-size: 33px; font-weight: 700; line-height: 1.35; }
+      .hero h2 { color: var(--purple); }
+      .hero h2 span { color: var(--purple); }
+      .hero h2 span:nth-child(2) { color: var(--purple); }
+      .hero p { max-width: 585px; margin: 16px 0 0; color: #5b3e77; font-size: 16px; line-height: 1.8; }
+      .pink-rule { width: 63px; height: 7px; margin-top: 24px; background: var(--pink); }
+
+      main { padding: 0 62px 50px; }
+      .capabilities {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .capability {
+        display: grid;
+        grid-template-columns: 86px 1fr;
+        min-height: 90px;
+        background: var(--grey);
+      }
+      .capability-icon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: var(--deep-purple);
+        color: #fff;
+      }
+      .capability-icon::after {
+        position: absolute;
+        bottom: -24px;
+        left: -24px;
+        width: 48px;
+        height: 48px;
+        background: var(--pink);
+        content: "";
+      }
+      .capability-icon svg { position: relative; z-index: 1; width: 33px; height: 33px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+      .capability-copy { padding: 14px 16px 11px; }
+      .capability-copy::before { display: block; width: 22px; height: 3px; margin-bottom: 7px; background: var(--pink); content: ""; }
+      .capability h3 { margin: 0; font-family: var(--heading); font-size: 18px; line-height: 1.25; }
+      .capability p { margin: 4px 0 0; color: #62556d; font-size: 13px; line-height: 1.45; }
+
+      .facts {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 36px;
+      }
+      .fact { display: flex; align-items: center; gap: 19px; min-height: 110px; padding: 18px 25px; border-right: 7px solid var(--pink); background: var(--purple); color: #fff; }
+      .fact strong { direction: ltr; font-family: Arial, sans-serif; font-size: 65px; letter-spacing: -0.06em; line-height: 1; }
+      .fact span { font-size: 19px; font-weight: 600; line-height: 1.5; }
+      .fact span, .fact small { display: block; }
+      .fact small { margin-top: 4px; }
+
+      .workflow-section { margin-top: 45px; padding-top: 30px; border-top: 1px solid var(--line); }
+      .section-top { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 25px; }
+      .section-top h2 { margin: 0; font-family: var(--heading); font-size: 28px; }
+      .section-top span { color: var(--pink); font-size: 13px; font-weight: 700; }
+      .workflow-grid { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); direction: rtl; }
+      .workflow { position: relative; min-height: 242px; padding: 0 5px; text-align: center; }
+      .workflow:not(:last-child)::after {
+        position: absolute;
+        z-index: 0;
+        top: 108px;
+        left: -15px;
+        width: 30px;
+        border-top: 3px dotted var(--purple);
+        content: "";
+      }
+      .workflow:not(:last-child)::before {
+        position: absolute;
+        z-index: 1;
+        top: 103px;
+        left: -15px;
+        border-top: 5px solid transparent;
+        border-right: 7px solid var(--purple);
+        border-bottom: 5px solid transparent;
+        border-left: 0;
+        content: "";
+      }
+      .step-no { color: var(--pink); direction: ltr; font-family: Arial, sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 0.09em; }
+      .workflow h3 { display: flex; min-height: 54px; align-items: center; justify-content: center; width: 100%; margin: 8px 0 15px; font-family: var(--heading); font-size: 13px; line-height: 1.35; text-align: center; }
+      .agent { position: relative; z-index: 2; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin: 0 auto; border: 1px solid var(--purple); background: #f8f5fa; color: var(--purple); }
+      .agent svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .human-loop {
+        position: absolute;
+        z-index: 3;
+        top: 126px;
+        left: -42px;
+        display: flex;
+        width: 84px;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+      }
+      .workflow:last-child .human-loop { display: none; }
+      .human-loop::before { width: 0; height: 34px; border-right: 3px dotted var(--pink); content: ""; }
+      .human-loop::after {
+        order: 1;
+        width: 0;
+        height: 0;
+        margin-top: -8px;
+        border-top: 6px solid var(--pink);
+        border-right: 4px solid transparent;
+        border-left: 4px solid transparent;
+        content: "";
+      }
+      .human { display: flex; order: 2; width: 38px; height: 38px; flex: 0 0 38px; align-items: center; justify-content: center; border: 1px solid var(--pink); border-radius: 50%; background: #fff; color: var(--pink); }
+      .human svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+      .human-loop span { order: 3; font-family: var(--body); font-size: 12px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+
+      .impact {
+        margin-top: 36px;
+        padding-top: 30px;
+        border-top: 1px solid var(--line);
+      }
+      .impact-header {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 21px;
+      }
+      .impact-header h2 {
+        margin: 0;
+        color: var(--purple);
+        font-family: var(--heading);
+        font-size: 28px;
+      }
+      .impact-header span {
+        color: #75667f;
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .impact-items {
+        display: grid;
+        gap: 13px;
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .impact-item {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        gap: 13px;
+        min-height: 92px;
+        padding: 16px 17px;
+        border-right: 4px solid var(--pink);
+        background: var(--grey);
+      }
+      .impact-item b {
+        color: var(--pink);
+        direction: ltr;
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+        letter-spacing: 0.08em;
+      }
+      .impact-item p {
+        margin: 0;
+        color: #4e405a;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 1.62;
+      }
+
+      .closing { display: flex; align-items: center; gap: 25px; margin-top: 40px; padding: 25px 31px; border-right: 8px solid var(--pink); background: var(--grey); }
+      .closing b { width: 10px; height: 56px; flex: 0 0 10px; background: var(--purple); }
+      .closing p { margin: 0; font-family: var(--heading); font-size: 27px; font-weight: 700; line-height: 1.4; }
+      footer { display: flex; align-items: center; justify-content: space-between; padding: 22px 62px; background: var(--deep-purple); color: #fff; }
+      footer img { display: block; width: 55px; height: 28px; object-fit: contain; }
+      footer span { color: rgba(255,255,255,.83); direction: ltr; font-family: Arial, sans-serif; font-size: 13px; }
+      footer b { color: var(--pink); direction: ltr; font-family: Arial, sans-serif; font-size: 12px; letter-spacing: .08em; }
+      @media print { body { background: #fff; } }
+      /* Version 3 additions retain Version 2's sharp white editorial language. */
+      .v3-section { margin-top: 38px; padding-top: 28px; border-top: 1px solid var(--line); }
+      .v3-section h2 { margin: 0 0 17px; color: var(--purple); font-family: var(--heading); font-size: 28px; }
+      .v3-about { display: grid; grid-template-columns: 110px 1fr; gap: 20px; align-items: center; padding: 20px 22px; border-right: 7px solid var(--pink); background: var(--grey); }
+      .v3-about-icon { display: flex; align-items: center; justify-content: center; width: 82px; height: 82px; background: var(--deep-purple); color: #fff; }
+      .v3-about-icon svg { width: 38px; height: 38px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+      .v3-about p { margin: 0; color: #544263; font-size: 15px; line-height: 1.85; }
+      .v3-about b { color: var(--purple); }
+      .v3-note { margin: 0 0 18px; color: #62556d; font-size: 14px; font-weight: 600; }
+      .v3-note b { color: var(--pink); }
+      .v3-workflows { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+      .v3-workflow { position: relative; min-height: 174px; padding: 14px 13px 12px; border-top: 3px solid var(--purple); background: #f8f5fa; text-align: center; }
+      .v3-workflow .v3-arrow { position: absolute; top: 79px; left: -8px; z-index: 2; color: var(--purple); font-size: 15px; }
+      .v3-workflow:nth-child(4n) .v3-arrow { display: none; }
+      .v3-workflow h3 { min-height: 44px; margin: 6px 0 8px; font-family: var(--heading); font-size: 14px; line-height: 1.4; }
+      .v3-workflow h3 small { display: block; margin-top: 3px; color: #75667f; direction: ltr; font-family: Arial, sans-serif; font-size: 10px; font-weight: 400; }
+      .v3-agent { display: flex; align-items: center; justify-content: center; width: 39px; height: 39px; margin: 0 auto; border: 1px solid var(--purple); background: #fff; color: var(--purple); }
+      .v3-agent svg, .v3-review svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .v3-review { display: flex; align-items: center; justify-content: center; gap: 5px; margin: 9px auto 0; color: var(--pink); font-size: 9.5px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+      .v3-review svg { width: 16px; height: 16px; }
+      .v3-features, .v3-impact { display: grid; grid-template-columns: repeat(2, 1fr); gap: 13px; }
+      .v3-feature, .v3-impact-item { display: grid; grid-template-columns: 42px 1fr; gap: 12px; min-height: 112px; padding: 15px 16px; border-right: 4px solid var(--pink); background: var(--grey); }
+      .v3-feature b, .v3-impact-item b { color: var(--pink); direction: ltr; font-family: Arial, sans-serif; font-size: 16px; letter-spacing: .08em; }
+      .v3-feature h3, .v3-impact-item h3 { margin: 0; color: var(--purple); font-family: var(--heading); font-size: 16px; line-height: 1.35; }
+      .v3-feature p, .v3-impact-item p { margin: 5px 0 0; color: #5c4d68; font-size: 12.5px; line-height: 1.65; }
+      .v3-feature h3 { font-size: 18px; }
+      .v3-feature p { font-size: 13.5px; }
+      .v3-impact-item h3 { font-size: 18px; }
+      .v3-impact-item p { font-size: 13.5px; }
+      .v3-human { display: grid; grid-template-columns: 105px 1fr; gap: 23px; align-items: center; margin-top: 38px; padding: 26px 28px; border-right: 8px solid var(--pink); background: var(--deep-purple); color: #fff; }
+      .v3-human-icon { display: flex; align-items: center; justify-content: center; width: 75px; height: 75px; border: 1px solid rgba(255,255,255,.65); }
+      .v3-human-icon svg { width: 36px; height: 36px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+      .v3-human h2 { margin: 0; color: #fff; font-family: var(--heading); font-size: 26px; line-height: 1.35; }
+      .v3-human h2 span { color: #ff9bcf; } .v3-human p { margin: 8px 0 0; color: rgba(255,255,255,.84); font-size: 13.5px; line-height: 1.75; }
+      .v3-closing { margin-top: 38px; padding: 20px 26px; border-right: 8px solid var(--pink); background: var(--grey); color: var(--purple); font-family: var(--heading); font-size: 21px; font-weight: 700; line-height: 1.5; }
+      .workflow .human-loop span { white-space: normal; }
+    </style>
+  
+<!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:_dlc_DocId msdt:dt="string">UQKRV34WMPZ3-1979299420-1462277</mso:_dlc_DocId>
+<mso:_dlc_DocIdItemGuid msdt:dt="string">c498bfd7-61de-4913-a4cb-12e1edf91f6c</mso:_dlc_DocIdItemGuid>
+<mso:_dlc_DocIdUrl msdt:dt="string">https://pwceur.sharepoint.com/sites/ae-GSD-0AMnmKU7FMzEEUk9PVA/_layouts/15/DocIdRedir.aspx?ID=UQKRV34WMPZ3-1979299420-1462277, UQKRV34WMPZ3-1979299420-1462277</mso:_dlc_DocIdUrl>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+  <body>
+    <div class="stage">
+      <article class="poster" id="poster"></article>
+    </div>
+    <script src="orchestrator-poster-v3-content.js"></script>
+    <script>
+      const content = window.posterContent;
+      const icons = {
+        agents: '<svg viewBox="0 0 48 48"><circle cx="24" cy="11" r="5"/><circle cx="11" cy="30" r="5"/><circle cx="37" cy="30" r="5"/><path d="M20 15 14 26M28 15l6 11M16 30h16M24 16v14"/></svg>',
+        link: '<svg viewBox="0 0 48 48"><path d="m20 28-4 4a7 7 0 0 1-10-10l7-7a7 7 0 0 1 10 0"/><path d="m28 20 4-4a7 7 0 0 1 10 10l-7 7a7 7 0 0 1-10 0"/><path d="m17 31 14-14"/></svg>',
+        evidence: '<svg viewBox="0 0 48 48"><path d="M11 5h18l8 8v30H11z"/><path d="M29 5v9h8M17 22h14M17 29h10"/><circle cx="31" cy="34" r="6"/><path d="m35 38 5 5"/></svg>',
+        review: '<svg viewBox="0 0 48 48"><path d="M24 5 39 11v11c0 10-6 17-15 21C15 39 9 32 9 22V11z"/><path d="m17 24 5 5 10-11"/></svg>',
+      };
+      const workflowIcons = {
+        context: '<svg viewBox="0 0 24 24"><path d="M4 7h16v12H4z"/><path d="M8 7V4h8v3M8 12h8M8 16h5"/></svg>',
+        risk: '<svg viewBox="0 0 24 24"><path d="M12 3 20 6v6c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V6z"/><path d="M12 8v5M12 17h.01"/></svg>',
+        apm: '<svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v4h3M9 12h6M9 16h6"/></svg>',
+        rcm: '<svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"/><rect x="14" y="4" width="6" height="6"/><rect x="4" y="14" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/></svg>',
+        testPlan: '<svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17"/><path d="M9 4V2M15 4V2M9 11h6M9 15h4"/></svg>',
+        dataRequest: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/><path d="M9 9.5h6"/></svg>',
+        testing: '<svg viewBox="0 0 24 24"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>',
+        observations: '<svg viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5z"/><path d="M16 3v4h3M9 15l6-6 2 2-6 6-3 1z"/></svg>',
+      };
+      const humanIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>';
+      const capability = ({ icon, title, text }) => `
+        <article class="capability">
+          <div class="capability-icon">${icons[icon]}</div>
+          <div class="capability-copy"><h3>${title}</h3><p>${text}</p></div>
+        </article>`;
+      const workflow = ({ label, icon }, index) => `
+        <article class="workflow">
+          <div class="step-no">${String(index + 1).padStart(2, "0")}</div>
+          <h3>${label}</h3>
+          <div class="agent">${workflowIcons[icon]}</div>
+          <div class="human-loop"><div class="human">${humanIcon}</div><span>مراجعة المدقق</span></div>
+        </article>`;
+      document.getElementById("poster").innerHTML = `
+        <header class="masthead">
+          <div class="topbar"><img src="stc-logo-white.png" alt="stc" /><i></i><span>${content.meta.department}</span><i></i><span class="transformation">${content.meta.transformation}</span></div>
+          <div class="hero">
+            <h1>${content.title.english}</h1>
+            <div class="pink-rule"></div>
+            <h2>${content.title.arabicParts.map(part => `<span>${part}</span>`).join("")}</h2>
+            <p>${content.title.description}</p>
+          </div>
+        </header>
+        <main>
+          <section class="capabilities">${content.capabilities.map(capability).join("")}</section>
+          <section class="facts">${content.facts.map(fact => `<article class="fact"><strong>${fact.number}</strong><span>${fact.label}</span></article>`).join("")}</section>
+          <section class="workflow-section">
+            <div class="section-top"><h2>مسار العمل المتكامل</h2></div>
+            <div class="workflow-grid">${content.workflows.map(workflow).join("")}</div>
+          </section>
+          <section class="impact">
+            <div class="impact-header"><h2>${content.impact.heading}</h2></div>
+            <div class="impact-items">${content.impact.items.map((item, index) => `<article class="impact-item"><b>0${index + 1}</b><p>${item}</p></article>`).join("")}</div>
+          </section>
+        </main>
+        <footer><img src="stc-logo-white.png" alt="stc" /><span>${content.meta.footer}</span><b>AI CORE</b></footer>`;
+    </script>
+    <script>
+      const reviewIcon = '<svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg>';
+      const v3Workflow = ({ label, icon }, index) => `<article class="workflow"><div class="step-no">${String(index + 1).padStart(2, "0")}</div><h3>${label}</h3><div class="agent">${workflowIcons[icon]}</div><div class="human-loop"><div class="human">${reviewIcon}</div><span>${content.workflow.reviewLabel}</span></div></article>`;
+      const v3Feature = ({ title, text }, index) => `<article class="v3-feature"><b>0${index + 1}</b><div><h3>${title}</h3><p>${text}</p></div></article>`;
+      const v3Impact = ({ title, text }, index) => `<article class="v3-impact-item"><b>0${index + 1}</b><div><h3>${title}</h3><p>${text}</p></div></article>`;
+      document.getElementById("poster").innerHTML = `
+        <header class="masthead"><div class="topbar"><img src="stc-logo-white.png" alt="stc" /><i></i><span>${content.meta.department}</span><i></i><span class="transformation">${content.meta.transformation}</span></div><div class="hero"><h1>${content.hero.english}</h1><div class="pink-rule"></div><h2>${content.hero.headline}</h2><p>${content.hero.description}</p></div></header>
+        <main>
+          <section class="facts">${content.stats.map(stat => `<article class="fact"><strong>${stat.number}</strong><div><span>${stat.label}</span><small>${stat.detail}</small></div></article>`).join("")}</section>
+          <section class="v3-section"><h2>${content.about.heading}</h2><div class="v3-about"><div class="v3-about-icon">${icons.agents}</div><p>${content.about.text}</p></div></section>
+          <section class="workflow-section"><div class="section-top"><h2>${content.workflow.heading}</h2></div><div class="workflow-grid">${content.workflow.items.map(v3Workflow).join("")}</div></section>
+          <section class="v3-section"><h2>${content.differentiators.heading}</h2><div class="v3-features">${content.differentiators.items.map(v3Feature).join("")}</div></section>
+          <section class="v3-human"><div class="v3-human-icon">${reviewIcon}</div><div><h2>${content.humanInTheLoop.heading}</h2><p>${content.humanInTheLoop.text}</p></div></section>
+          <section class="v3-section"><h2>${content.impact.heading}</h2><div class="v3-impact">${content.impact.items.map(v3Impact).join("")}</div></section>
+          <section class="v3-closing">${content.closing}</section>
+        </main>
+        <footer><img src="stc-logo-white.png" alt="stc" /><span>${content.meta.footer}</span><b>AI CORE</b></footer>`;
+    </script>
+  </body>
+</html>

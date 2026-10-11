@@ -1,0 +1,41 @@
+window.posterContent = {
+  meta: {
+    department: "Internal Audit",
+    transformation: "Audit Transformation & Innovation",
+    footer: "Audit Transformation & Innovation",
+  },
+  title: {
+    english: "ORCHESTRATOR",
+    arabicParts: ["المراجعة الرقمية. رحلة واحدة. قر", "ار أوضح."],
+    description: "منظومة عمل مترابطة تنظم رحلة المراجع، مع بقاء الحكم المهني بيد الإنسان.",
+  },
+  capabilities: [
+    { icon: "agents", title: "وكلاء متخصصون", text: "لكل مرحلة وكيل ذكي مخصص." },
+    { icon: "link", title: "مخرجات مترابطة", text: "كل مخرج يجهّز للمرحلة التالية." },
+    { icon: "evidence", title: "أدلة قابلة للتتبع", text: "مسار أوضح للعمل والمخرجات." },
+    { icon: "review", title: "اعتماد بشري", text: "مراجعة بشرية في كل محطة." },
+  ],
+  facts: [
+    { number: "21", label: "وكيلاً ذكياً تم تطويره" },
+    { number: "08", label: "مسارات عمل مترابطة" },
+  ],
+  workflows: [
+    { label: "إعداد المهمة والسياق", icon: "context" },
+    { label: "تقييم المخاطر الكامنة", icon: "risk" },
+    { label: "مولد APM", icon: "apm" },
+    { label: "مولد RCM", icon: "rcm" },
+    { label: "مولد خطة الاختبار", icon: "testPlan" },
+    { label: "مولد طلب البيانات", icon: "dataRequest" },
+    { label: "سير عمل الاختبارات", icon: "testing" },
+    { label: "مولد الملاحظات", icon: "observations" },
+  ],
+  impact: {
+    heading: "الأثر المتوقع",
+    items: [
+      "تقليل الوقت المستهلك في تحليل المستندات، وإعداد المسودات، وبناء المصفوفات، وتحديد متطلبات البيانات، وتنفيذ الاختبارات وتحليلها.",
+      "تركيز أكبر للمراجع على الحكم المهني وتحليل المخاطر ومناقشة النتائج وتقديم قيمة أعلى للأعمال.",
+      "توحيد جودة ومنهجية التنفيذ بين فرق المراجعة المختلفة.",
+      "تتبع أوضح للعمل والأدلة والقرارات طوال دورة المراجعة.",
+    ],
+  },
+};
