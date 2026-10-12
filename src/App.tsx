@@ -1123,7 +1123,7 @@ function Appendix() {
 
 function ValidationDepth() {
   return (
-    <Section id="validation-depth" title="Quality Cowworkers" alt showRail={false} showLegend={false}>
+    <Section id="validation-depth" title="Quality Coworkers" alt showRail={false} showLegend={false}>
       {(visible) => (
         <div className={`validator-flow ${visible ? "fade-enter" : "before-enter"}`}>
           <div className="validator-stage validator-input-stage">
